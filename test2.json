@@ -1,0 +1,56 @@
+{
+    "riskValidation": {
+        "risk": "Low",
+        "riskDescription": "",
+        "riskDateCreated": "2020-01-10T15:39:27.609Z",
+        "geograficalRist": null,
+        "insufficientRisk": null,
+        "sectorRisk": null,
+        "necessarySkills": null,
+        "riskIncreasing": null,
+        "metFaceToFace": null,
+        "concernMandate": null,
+        "deontologyRisk": null,
+        "natureRisk": null,
+        "negativeExperiences": null,
+        "remunerationRisk": null,
+        "VHInvoices": null,
+        "workPerform": null,
+        "workWhom": "",
+        "kindOfWork": "",
+        "decisionMaking": null,
+        "accountsSetup": null,
+        "systemDesign": null,
+        "determinationValue": null,
+        "internalAudit": null,
+        "controlledEntity": null,
+        "managementPersonnel": null
+    },
+    "productListValidation": {
+        "noProductSelected": false
+    },
+    "capVerification": {
+        "coordinatedStatuses": null,
+        "UBO": {
+            "checkboxValue": "",
+            "textboxValue": "",
+            "requered": "0"
+        },
+        "listOfManagers": null,
+        "publication": null,
+        "independenceCompromise": null,
+        "monopoly": null,
+        "interestsConflict": null,
+        "auditReport": null,
+        "registeredOffice": null,
+        "riskForEmployees": null,
+        "writingInform": null,
+        "confratorAccount": null,
+        "haveWeContacted": null,
+        "haveWeInformed": null,
+        "documentsTransferred": null,
+        "deepIncorporationAll": null,
+        "deepIncorporationCoordinated": null,
+        "deepIncorporationAllPublicate": null
+    }
+}

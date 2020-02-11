@@ -1,0 +1,224 @@
+{
+    "contact": {
+        "contactId": 495,
+        "contactType": "Business",
+        "customerId": null,
+        "customer": null,
+        "clientId": null,
+        "customerGroupId": null,
+        "customerGroupName": null,
+        "client": null,
+        "capStatus": 10,
+        "capStatusMessage": null,
+        "erpCode": "8788777",
+        "contactEmail": ["tes462@gmail.com"],
+        "contactPhone": [],
+        "language": "nl",
+        "mobilePhone": [],
+        "website": "",
+        "invoicingEmail": "tes462@gmail.com",
+        "location": "Hasselt",
+        "isNewCompany": false,
+        "isNonEuCompany": false,
+        "invoiceUnit": "fcee0595-9ae5-4003-aa63-368da6cb1c1c",
+        "accountManager": null,
+        "rightHand": {
+            "name": "Dimitri Joosten",
+            "email": "admin@VanHavermaetUAT.onmicrosoft.com",
+            "phone": null,
+            "photoUrl": "/Profile/Photo/ff52bfce-025d-480d-9718-d80a89da082d?quality=100&clienttag=637099776000000000"
+        },
+        "seniorAssistant": null,
+        "assistant": null,
+        "advisers": [],
+        "addresses": [{
+            "addressType": "StatutorySeat",
+            "addressLine": "test",
+            "postalcode": "7318",
+            "city": "test",
+            "country": "cd3a6ee7-e18a-4c82-85f9-5edd02f80d06",
+            "invoicingTo": "",
+            "useForInvoicing": false
+        }],
+        "interests": [],
+        "firstName": null,
+        "registrationNumber": null,
+        "lastName": null,
+        "nickName": null,
+        "passport": null,
+        "expirationDate": null,
+        "isPep": false,
+        "companyName": "BC2211",
+        "shortCompanyName": "BC2211",
+        "vatNumber": "0999901146",
+        "identificationNumber": "",
+        "notLiableToVat": false,
+        "vatNumberCountry": "BE",
+        "vatNumberValidationStatus": "NotVerified",
+        "distance": "90",
+        "foreignVats": [{
+            "vatNumber": "",
+            "vatNumberCountry": "",
+            "vatNumberStatus": ""
+        }],
+        "activityKind": "",
+        "naceCode": "",
+        "recurrentOrOccasionalCustomer": false,
+        "lessOrMoreAmount": false,
+        "companyForm": {
+            "id": "c0c9b006-b4d0-4019-8d2c-99647da803de",
+            "label": "ACCOUNT.KANTOOR"
+        },
+        "pepCount": 0,
+        "customerGroup": {
+            "contactId": null,
+            "contactName": null
+        },
+        "useForInvoice": false,
+        "invocingAddressLine": "test",
+        "invocingPostalCode": "7318",
+        "invoicingTo": "BC2211"
+    },
+    "riskValidation": {
+        "risk": "Low",
+        "riskDescription": "d",
+        "riskDateCreated": "2019-11-22T09:30:51.322Z",
+        "geograficalRist": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "insufficientRisk": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "sectorRisk": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "necessarySkills": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "riskIncreasing": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "metFaceToFace": null,
+        "concernMandate": null,
+        "deontologyRisk": null,
+        "natureRisk": null,
+        "negativeExperiences": null,
+        "remunerationRisk": null,
+        "VHInvoices": null,
+        "workPerform": null,
+        "workWhom": "",
+        "kindOfWork": "",
+        "decisionMaking": null,
+        "accountsSetup": null,
+        "systemDesign": null,
+        "determinationValue": null,
+        "internalAudit": null,
+        "controlledEntity": null,
+        "managementPersonnel": null
+    },
+    "productListValidation": {
+        "noProductSelected": true
+    },
+    "capVerification": {
+        "coordinatedStatuses": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "UBO": {
+            "checkboxValue": "0",
+            "textboxValue": "test",
+            "requered": "0"
+        },
+        "listOfManagers": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "publication": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "independenceCompromise": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "monopoly": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "interestsConflict": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "auditReport": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "registeredOffice": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "riskForEmployees": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "writingInform": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "confratorAccount": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "haveWeContacted": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "haveWeInformed": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "documentsTransferred": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "deepIncorporationAll": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "deepIncorporationCoordinated": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        },
+        "deepIncorporationAllPublicate": {
+            "checkboxValue": "0",
+            "textboxValue": "",
+            "requered": ""
+        }
+    }
+}

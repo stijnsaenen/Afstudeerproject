@@ -1,0 +1,164 @@
+{
+    "contact": {
+        "contactId": 456,
+        "contactType": "Family",
+        "customerId": null,
+        "customer": null,
+        "clientId": null,
+        "customerGroupId": null,
+        "customerGroupName": null,
+        "client": null,
+        "capStatus": 20,
+        "capStatusMessage": "",
+        "erpCode": "",
+        "contactEmail": ["ghfv@hycd.bjk"],
+        "contactPhone": [],
+        "language": "nl",
+        "mobilePhone": [],
+        "website": "",
+        "invoicingEmail": "",
+        "location": "",
+        "isNewCompany": false,
+        "isNonEuCompany": false,
+        "invoiceUnit": "",
+        "accountManager": null,
+        "rightHand": null,
+        "seniorAssistant": null,
+        "assistant": null,
+        "advisers": [],
+        "addresses": [{
+            "addressType": "CorrespondenceAddress",
+            "addressLine": "",
+            "postalcode": "",
+            "city": "",
+            "country": "",
+            "invoicingTo": "",
+            "useForInvoicing": false
+        }],
+        "interests": [],
+        "firstName": null,
+        "registrationNumber": null,
+        "lastName": null,
+        "nickName": "FC2510",
+        "passport": null,
+        "expirationDate": null,
+        "isPep": false,
+        "companyName": "FC2510",
+        "shortCompanyName": null,
+        "vatNumber": "",
+        "identificationNumber": null,
+        "notLiableToVat": false,
+        "vatNumberCountry": null,
+        "vatNumberValidationStatus": null,
+        "distance": null,
+        "foreignVats": null,
+        "activityKind": "",
+        "naceCode": "",
+        "recurrentOrOccasionalCustomer": false,
+        "lessOrMoreAmount": false,
+        "companyForm": "",
+        "pepCount": 0,
+        "customerGroup": {
+            "contactId": null,
+            "contactName": null
+        },
+        "useForInvoice": false
+    },
+    "riskValidation": {
+        "risk": "Low",
+        "riskDescription": "",
+        "riskDateCreated": "2019-10-25T12:24:17.762Z",
+        "geograficalRist": null,
+        "insufficientRisk": null,
+        "sectorRisk": null,
+        "necessarySkills": null,
+        "riskIncreasing": null,
+        "metFaceToFace": null,
+        "concernMandate": null,
+        "deontologyRisk": null,
+        "natureRisk": null,
+        "negativeExperiences": null,
+        "remunerationRisk": null,
+        "VHInvoices": null,
+        "workPerform": null,
+        "workWhom": "",
+        "kindOfWork": "",
+        "decisionMaking": null,
+        "accountsSetup": null,
+        "systemDesign": null,
+        "determinationValue": null,
+        "internalAudit": null,
+        "controlledEntity": null,
+        "managementPersonnel": null
+    },
+    "productListValidation": {
+        "assuranceCompliance": {
+            "invoiceUnit": "",
+            "directInvoicing": {
+                "checkboxValue": null,
+                "textboxValue": "tffgfcg dfxfxsx",
+                "requered": ""
+            },
+            "directInvoicingAmount": {
+                "countryValue": "EUR",
+                "value": 0
+            },
+            "estimatedAmount": 0,
+            "estimatedHours": 0,
+            "pricePerHour": {
+                "countryValue": "EUR",
+                "value": 0
+            },
+            "fixedAmount": null,
+            "fixedPrice": {
+                "countryValue": "EUR",
+                "value": 0
+            },
+            "invoiceStartAt": "2019-10-25T12:24:21.497Z",
+            "writtenOffer": {
+                "checkboxValue": "1",
+                "textboxValue": "",
+                "requered": "0"
+            },
+            "deviatingRates": {
+                "checkboxValue": "0",
+                "textboxValue": "",
+                "requered": "1"
+            },
+            "invoicePeriodicity": {
+                "checkboxValue": "1",
+                "textboxValue": "",
+                "requered": "0"
+            },
+            "invoiceDetails": {
+                "checkboxValue": "0",
+                "textboxValue": ""
+            },
+            "hardCopy": {
+                "checkboxValue": "0",
+                "textboxValue": ""
+            },
+            "invoicedEntity": ""
+        }
+    },
+    "capVerification": {
+        "coordinatedStatuses": null,
+        "UBO": null,
+        "listOfManagers": null,
+        "publication": null,
+        "independenceCompromise": null,
+        "monopoly": null,
+        "interestsConflict": null,
+        "auditReport": null,
+        "registeredOffice": null,
+        "riskForEmployees": null,
+        "writingInform": null,
+        "confratorAccount": null,
+        "haveWeContacted": null,
+        "haveWeInformed": null,
+        "documentsTransferred": null,
+        "deepIncorporationAll": null,
+        "deepIncorporationCoordinated": null,
+        "deepIncorporationAllPublicate": null
+    }
+}

@@ -1,0 +1,136 @@
+{
+ "links": [
+  {
+   "source": 3,
+   "target": 14
+  },
+  {
+   "source": 3,
+   "target": 15
+  },
+  {
+   "source": 2,
+   "target": 8
+  },
+  {
+   "source": 2,
+   "target": 9
+  },
+  {
+   "source": 2,
+   "target": 10
+  },
+  {
+   "source": 2,
+   "target": 11
+  },
+  {
+   "source": 2,
+   "target": 13
+  },
+  {
+   "source": 2,
+   "target": 12
+  },
+  {
+   "source": 2,
+   "target": 17
+  },
+  {
+   "source": 0,
+   "target": 6
+  },
+  {
+   "source": 0,
+   "target": 21
+  },
+  {
+   "source": 1,
+   "target": 7
+  },
+  {
+   "source": 4,
+   "target": 19
+  },
+  {
+   "source": 4,
+   "target": 16
+  },
+  {
+   "source": 4,
+   "target": 20
+  },
+  {
+   "source": 5,
+   "target": 18
+  }
+ ],
+ "nodes": [
+  {
+   "name": "Klant"
+  },
+  {
+   "name": "Michael Jackson"
+  },
+  {
+   "name": "VH Test IC1810 VH Test IC1810"
+  },
+  {
+   "name": "Williams"
+  },
+  {
+   "name": "АС09125"
+  },
+  {
+   "name": "BC271219"
+  },
+  {
+   "name": "Kalnt - DirCo"
+  },
+  {
+   "name": "Jackson"
+  },
+  {
+   "name": "BC31102"
+  },
+  {
+   "name": "BC1811"
+  },
+  {
+   "name": "BC2111"
+  },
+  {
+   "name": "BC2211"
+  },
+  {
+   "name": "BC0412"
+  },
+  {
+   "name": "FC0412"
+  },
+  {
+   "name": "VH'Test0912"
+  },
+  {
+   "name": "BC0912"
+  },
+  {
+   "name": "BC11121"
+  },
+  {
+   "name": "BC2012"
+  },
+  {
+   "name": "test revalidation"
+  },
+  {
+   "name": "BC29011"
+  },
+  {
+   "name": "BC10011"
+  },
+  {
+   "name": "Empeha"
+  }
+ ]
+}

@@ -1,80 +1,177 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="icon" type="image/png" href="logohead.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <script src="https://d3js.org/d3.v2.min.js?2.9.3"></script>
 <style>
+    .link {
+        stroke: #aaa;
+    }
 
-.link {
-  stroke: #aaa;
-}
+    .node text {
+        stroke: #333;
+        cursor: pointer;
+    }
 
-.node text {
-stroke:#333;
-cursor:pointer;
-}
+    .node circle {
+        stroke: #555;
+        stroke-width: 1px;
+        fill: beige;
+        cursor: pointer;
+    }
 
-.node circle{
-stroke: #555;
-            stroke-width: 1px;
-            fill: beige;
-            cursor: pointer;
-}
-
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-family: "Raleway", sans-serif
+    }
 </style>
+
 <body>
-<script>
+    <header class="w3-container w3-center w3-padding-32">
+        <img src="fototop.png">
+    </header>
 
-var width = 960,
-    height = 900
+    <script>
+        var width = window.innerWidth,
+            height = 800
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-var force = d3.layout.force()
-    .gravity(.05)
-    .distance(100)
-    .charge(-300)
-    .size([width, height]);
+        var force = d3.layout.force()
+            .gravity(.05)
+            .distance(100)
+            .charge(-300)
+            .size([width, height]);
 
-d3.json("graph.json", function(json) {
-    force
-      .nodes(json.nodes)
-      .links(json.links)
-      .start();
+        d3.json("graph.json", function(json) {
+            force
+                .nodes(json.nodes)
+                .links(json.links)
+                .start();
 
- 
+            var link = svg.selectAll(".link")
+                .data(json.links)
+                .enter().append("line")
+                .attr("class", "link")
+                .style("stroke-width", function(d) {
+                    return Math.sqrt(d.weight);
+                });
 
-  var link = svg.selectAll(".link")
-      .data(json.links)
-    .enter().append("line")
-      .attr("class", "link")
-    .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+            var node = svg.selectAll(".node")
+                .data(json.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(force.drag);
 
-  var node = svg.selectAll(".node")
-      .data(json.nodes)
-    .enter().append("g")
-      .attr("class", "node")
-          .call(force.drag);
+            node.append("circle")
+                .attr("r", "17");
 
+            node.append("text")
+                .attr("dx", 12)
+                .attr("dy", ".35em")
+                .text(function(d) {
+                    return d.name
+                });
 
-  node.append("circle")
-      .attr("r","17");
+            var tip;
+            var xSpacing = 25;
+            var ySpacing = 40;
 
-  node.append("text")
-      .attr("dx", 12)
-      .attr("dy", ".35em")
-      .text(function(d) { return d.name });
-    
-    force.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+            node.on("mouseover", function(d) {
+                d3.event.stopPropagation();
 
-    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  });
+                if (tip) tip.remove();
 
-  
-});
+                tip = svg.append("g")
+                    .attr("transform", "translate(" + d.x + "," + d.y + ")");
 
-</script>
+                var rect = tip.append("rect")
+                    .style("fill", "yellow")
+                    .style("stroke", "black");
+
+                var textfield1 = tip.append("text")
+                    .text("Name: " + d.name)
+                    .attr("dy", "1em")
+
+                var textfield2 = tip.append("text")
+                    .text("Info: " + "placeholder")
+                    .attr("dy", "2em")
+
+                var textfield3 = tip.append("text")
+                    .text("Info: " + "placeholder")
+                    .attr("dy", "3em")
+
+                var textfield4 = tip.append("text")
+                    .text("Info: " + "placeholder")
+                    .attr("dy", "4em")
+
+                var bbox = tip.node().getBBox();
+                rect.attr("width", bbox.width + 5)
+                    .attr("height", bbox.height + 5)
+                    .attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing)
+
+                textfield1.attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing)
+                textfield2.attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing)
+                textfield3.attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing)
+                textfield4.attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing)
+
+                var bbox2 = tip.node().getBBox();
+                var rect2 = tip.append("rect")
+                    .style("fill", "orange")
+                    .style("stroke", "black")
+                    .attr("width", bbox.width + 5)
+                    .attr("height", 20)
+                    .attr("x", -bbox.width / 2)
+                    .attr("y", ySpacing - 20)
+
+                var textfield0 = tip.append("text")
+                textfield0.attr("x", -bbox.width / 2 + 5)
+                    .text("Contactinfo")
+                    .attr("y", ySpacing - 5)
+
+                var rect3 = tip.append("rect")
+                    .style("fill", "red")
+                    .style("stroke", "black")
+                    .attr("width", 20)
+                    .attr("height", 20)
+                    .attr("x", -bbox.width / 2 + bbox.width - 15)
+                    .attr("y", ySpacing - 20)
+                    .on("click", function() {
+                        if (tip) tip.remove();
+                    });
+            });
+
+            force.on("tick", function() {
+                link.attr("x1", function(d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function(d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function(d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function(d) {
+                        return d.target.y;
+                    });
+
+                node.attr("transform", function(d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+            });
+
+        });
+    </script>
+</body>

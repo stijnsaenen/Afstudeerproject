@@ -68,14 +68,17 @@
                 .data(json.nodes)
                 .enter().append("g")
                 .attr("class", "node")
+                .on("mouseout", smaller)
                 .call(force.drag);
 
             node.append("circle")
                 .attr("r", "17");
 
-            node.append("text")
-                .attr("dx", 12)
+           node.append("text")
+                .attr("dx", 0)
                 .attr("dy", ".35em")
+                .attr("y", -25)
+                .style("text-anchor", "middle")
                 .text(function(d) {
                     return d.name
                 });
@@ -85,11 +88,11 @@
             var ySpacing = 40;
 
             node.on("mouseover", function(d) {
-                d3.event.stopPropagation();
 
-                if (tip) tip.remove();
+                if (tip) tip.remove(); 
 
                 tip = svg.append("g")
+                    .attr("class", "test")
                     .attr("transform", "translate(" + d.x + "," + d.y + ")");
 
                 var rect = tip.append("rect")
@@ -99,6 +102,8 @@
                 var textfield1 = tip.append("text")
                     .text("Name: " + d.name)
                     .attr("dy", "1em")
+        
+                    
 
                 var textfield2 = tip.append("text")
                     .text("Info: " + "placeholder")
@@ -140,18 +145,8 @@
                 textfield0.attr("x", -bbox.width / 2 + 5)
                     .text("Contactinfo")
                     .attr("y", ySpacing - 5)
-
-                var rect3 = tip.append("rect")
-                    .style("fill", "red")
-                    .style("stroke", "black")
-                    .attr("width", 20)
-                    .attr("height", 20)
-                    .attr("x", -bbox.width / 2 + bbox.width - 15)
-                    .attr("y", ySpacing - 20)
-                    .on("click", function() {
-                        if (tip) tip.remove();
-                    });
             });
+            
 
             force.on("tick", function() {
                 link.attr("x1", function(d) {
@@ -173,5 +168,9 @@
             });
 
         });
+        
+        function smaller() {
+            d3.select(".test").remove();
+            }
     </script>
 </body>

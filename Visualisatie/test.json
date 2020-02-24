@@ -1,0 +1,15 @@
+{
+    "CreatedDateUtc": null,
+    "HideFromCustomer": false,
+    "LeftContactId": 232,
+    "ModifiedDateUtc": null,
+    "RelationId": 14,
+    "RelationTypeId": 10,
+    "RelationValidationStatus": 10,
+    "RightContactId": 233,
+    "classes": null,
+    "prepare": null,
+    "relationcontacts": null,
+    "relationfieldvalues_collection": null,
+    "relationtypes": null
+}

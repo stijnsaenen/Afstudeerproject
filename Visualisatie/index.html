@@ -59,6 +59,9 @@
 <body>
     <header class="w3-container w3-center w3-padding-32">
         <img src="fototop.png">
+        <form style="float:right;display:inline-block;line-height:52px;padding-right:168px;padding-top:40px">
+				<input type="text" name="searchbar" placeholder="search.." size="99">
+			</form>
     </header>
 
     <div id="area1"></div>
@@ -72,10 +75,12 @@
             height = 800
 
         // Network window
+
         var svg = d3.select("#area1").append("svg")
             .attr("width", (3 / 7) * width)
             .attr("height", height * 0.8);
-
+        
+        
         var borderPath = svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)

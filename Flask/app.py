@@ -110,8 +110,7 @@ def index():
 
 @app.route ('/all', methods=['GET'])
 def all():
-    df = db.session.query(Relations).limit(30).all()
-
+    df = db.session.query(Relations).all()
     temp = json.dumps(df, cls=AlchemyEncoder)
     print(json.loads(temp))
     print(type(json.loads(temp)[0]))
@@ -144,8 +143,6 @@ def all():
         nodes.append([bo.ContactId, bo.ContactName,bo.
     CustomerId, bo.ClientId, bo.ContactEmail, bo.ContactPhone, bo.CompanyName])
     print(nodes)
-
-
     
    # df = pd.read_sql(query.statement, query.session.bind)
    #jseun = 

@@ -110,25 +110,25 @@ def index():
 
 @app.route ('/all', methods=['GET'])
 def all():
-    request.data[]
-    df = db.session.query(Relations).all()
+    df = db.session.query(Relations).limit(30).all()
+
     temp = json.dumps(df, cls=AlchemyEncoder)
-    print(temp)
-    return json.dumps(df, cls=AlchemyEncoder)
-    relations = []
+    print(json.loads(temp))
+    print(type(json.loads(temp)[0]))
+    return json.loads(temp)[0]
     nodelist=[]
-    for q in df:
-        rel = []
-        rel.append(q.LeftContactId)
-        nodelist.append(q.LeftContactId)
-        nodelist.append(q.RightContactId)
-        rel.append(q.RightContactId)
-        rel.append(q.RelationId)
-        rel.append(q.RelationTypeId)
-        relations.append(rel)
-    print(relations)
-    print(str(relations))
-    print(set(nodelist))
+    # for q in df:
+    #     rel = []
+    #     rel.append(q.LeftContactId)
+    #     nodelist.append(q.LeftContactId)
+    #     nodelist.append(q.RightContactId)
+    #     rel.append(q.RightContactId)
+    #     rel.append(q.RelationId)
+    #     rel.append(q.RelationTypeId)
+    #     relations.append(rel)
+    # print(relations)
+    # print(str(relations))
+    # print(set(nodelist))
     
     # q2 = db.session.query(RelationContacts.ContactId,RelationContacts.ContactName).filter(RelationContacts.ContactId.in_(relations)).all()
     # print(q2)
@@ -137,18 +137,14 @@ def all():
 
     q3 = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName,RelationContacts.
     CustomerId, RelationContacts.ClientId, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId.in_(set(nodelist))).all()
+
+
     nodes = []
     for bo in q3:
         nodes.append([bo.ContactId, bo.ContactName,bo.
     CustomerId, bo.ClientId, bo.ContactEmail, bo.ContactPhone, bo.CompanyName])
     print(nodes)
 
-
-
-    name id
-        
-    
-    return jsonify(result = str(relations))
 
     
    # df = pd.read_sql(query.statement, query.session.bind)

@@ -110,11 +110,27 @@ def index():
 
 @app.route ('/all', methods=['GET'])
 def all():
-    df = db.session.query(Relations).all()
+    df = db.session.query(Relations).limit(30).all()
+
     temp = json.dumps(df, cls=AlchemyEncoder)
     print(json.loads(temp))
     print(type(json.loads(temp)[0]))
-    return json.loads(temp)[0]
+    dic = dict()
+
+    for entry in json.loads(temp):
+        dic.update(entry)
+
+    print(dic)
+    print(type(dic))
+    print(type(temp))
+
+    myString = temp[1:-1]
+    print(myString)
+
+
+
+    return myString
+
     nodelist=[]
     # for q in df:
     #     rel = []
@@ -143,6 +159,8 @@ def all():
         nodes.append([bo.ContactId, bo.ContactName,bo.
     CustomerId, bo.ClientId, bo.ContactEmail, bo.ContactPhone, bo.CompanyName])
     print(nodes)
+
+
     
    # df = pd.read_sql(query.statement, query.session.bind)
    #jseun = 

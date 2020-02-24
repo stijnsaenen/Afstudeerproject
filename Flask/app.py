@@ -110,7 +110,6 @@ def index():
 
 @app.route ('/all', methods=['GET'])
 def all():
-    request.data[]
     df = db.session.query(Relations).all()
     temp = json.dumps(df, cls=AlchemyEncoder)
     print(temp)
@@ -142,11 +141,6 @@ def all():
         nodes.append([bo.ContactId, bo.ContactName,bo.
     CustomerId, bo.ClientId, bo.ContactEmail, bo.ContactPhone, bo.CompanyName])
     print(nodes)
-
-
-
-    name id
-        
     
     return jsonify(result = str(relations))
 

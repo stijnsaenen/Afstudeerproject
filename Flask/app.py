@@ -99,6 +99,13 @@ class AlchemyEncoder(json.JSONEncoder):
 
         return json.JSONEncoder.default(self, obj)
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  return response
+
 @app.route('/')
 def index():
 
@@ -127,10 +134,8 @@ def all():
     myString = temp[1:-1]
     print(myString)
 
-    jayson = "{\"relations\":" + temp + "}"
+    jayson = "{\"relations\": " + temp + "}"
     print(jayson)
-
-
     return jayson
 
     nodelist=[]

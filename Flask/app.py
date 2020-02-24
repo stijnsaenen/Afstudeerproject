@@ -12,10 +12,12 @@ from flask import render_template, request, redirect, Response
 import urllib
 from datetime import datetime
 from sqlalchemy.ext.automap import automap_base
+from flask_marshmallow import Marshmallow
 
 #import sqlalchemy
 
 app = Flask(__name__)
+ma = Marshmallow(app)
 
 
 paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER=vhuat.database.windows.net;PORT=1433;DATABASE=vhportal-prod-copy-2020-2-21-16-13;UID=AzureDB_admin;PWD=P@55w0rd')
@@ -34,49 +36,15 @@ select_query_ST = '''SELECT LeftContactId, RightContactId FROM Databaas.dbo.Rela
 RelationContacts = db.Table('RelationContacts', db.metadata, autoload=True, autoload_with=db.engine)
 
 
-
-# class RelationContacts(db.Model):
-#     ContactId= db.Column(db.Integer, primary_key=True)
-#     ContactName = db.Column(db.String(50))
-#     ContactKind = db.Column(db.Integer)
-#     CustomerId = db.Column(db.Integer)
-#     ClientId = db.Column(db.Integer)
-#     ContactEmail = db.Column(db.String(50))
-#     ContactPhone = db.Column(db.Integer)
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     CompanyName = db.Column(db.String(50))
-
-# class Relations(db.Model):
-#     RelationId= db.Column(db.Integer, primary_key=True)
-#     RelationTypeId = db.Column(db.Integer)
-#     LeftContactId = db.Column(db.Integer)
-#     RightContactId = db.Column(db.Integer)
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     HideFromCustomer = db.Column(db.Boolean)
-#     RelationValidationStatus = db.Column(db.Integer)
-
-# class RelationTypes(db.Model):
-#     RelationTypeId= db.Column(db.Integer, primary_key=True)
-#     DisplayName = db.Column(db.String(50))
-#     LeftContactTitle = db.Column(db.String(50))
-#     RightContactTitle = db.Column(db.String(50))
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     IsSystem = db.Column(db.Boolean)
-#     SystemName = db.Column(db.String(50))
-#     IsPepRelevant = db.Column(db.Boolean)
-
-
-    
-
-
 Base = automap_base()
 Base.prepare(db.engine, reflect = True)
 Relations = Base.classes.Relations
 RelationContacts = Base.classes.RelationContacts
 RelationTypes = Base.classes.RelationTypes
+
+class RelationSchema(ma.ModelSchema):
+    class Meta:
+        model = Relations
 
 
 from sqlalchemy.ext.declarative import DeclarativeMeta
@@ -119,23 +87,34 @@ def index():
 def all():
     df = db.session.query(Relations).limit(30).all()
 
+    # qqq = RelationSchema(many = True)
+    # out = qqq.dump(df).data
+    # print(jsonify({'relation' : out}))
+
+
+    
+
     temp = json.dumps(df, cls=AlchemyEncoder)
-    print(json.loads(temp))
-    print(type(json.loads(temp)[0]))
-    dic = dict()
+    #print(json.loads(temp))
+    # print(type(json.loads(temp)[0]))
+    # dic = dict()
 
-    for entry in json.loads(temp):
-        dic.update(entry)
+    # for entry in json.loads(temp):
+    #     dic.update(entry)
 
-    print(dic)
-    print(type(dic))
-    print(type(temp))
+    # print(dic)
+    # print(type(dic))
+    # print(type(temp))
 
     myString = temp[1:-1]
-    print(myString)
+    #print(myString)
 
-    jayson = "{\"relations\": " + temp + "}"
+    jayson = "{\"relations\":" + temp + "}"
+
+
     print(jayson)
+    print(type(json.loads(jayson)))
+
     return jayson
 
     nodelist=[]

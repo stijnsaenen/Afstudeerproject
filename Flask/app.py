@@ -127,9 +127,11 @@ def all():
     myString = temp[1:-1]
     print(myString)
 
+    jayson = "{\"relations\":" + temp + "}"
+    print(jayson)
 
 
-    return myString
+    return jayson
 
     nodelist=[]
     # for q in df:

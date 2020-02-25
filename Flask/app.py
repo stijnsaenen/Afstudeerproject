@@ -91,6 +91,12 @@ def index():
     print(type(temquotes))
     print(tq)
     print(type(tq))
+
+    #result = db.engine.execute("select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in(select RelationContacts.ContactIdfrom RelationContacts inner join relations ON (RelationContacts.ContactId = relations.LeftContactId)  inner join RelationContacts   ON (RelationContacts.ContactId = relations.RightContactId) inner join RelationTypes ON (RelationTypes.RelationTypeId = relations.RelationTypeId) where RelationContacts.ContactName like '%<zoekterm>%' or RelationContacts.CompanyName like '%la%' or RelationContacts.ContactPhone like '%la%' or RelationContacts.ContactEmail like '%la%' or RelationContacts.VatNumber like '%la%' or RelationContacts.ErpCode like '%la%' or RelationContacts.Passport like '%la%' or RelationContacts.MobilePhone like '%la%') union select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in (select b.ContactId from RelationContacts a inner join relations y ON (a.ContactId = y.LeftContactId)  inner join RelationContacts b   ON (b.ContactId = y.RightContactId) inner join RelationTypes t ON (t.RelationTypeId = y.RelationTypeId) where b.ContactName like '%la%' or b.CompanyName like '%la%' or b.ContactPhone like '%la%' or b.ContactEmail like '%la%' or b.VatNumber like '%la%' or b.ErpCode like '%la%' or b.Passport like '%la%' or b.MobilePhone like '%la%') order by 1")
+    #print(result)
+
+
+
     return render_template("index.html", idname = temquotes)
 
 
@@ -99,10 +105,23 @@ def all():
     df = db.session.query(Relations).limit(30).all()
 
     temp = json.dumps(df, cls=AlchemyEncoder)
-    myString = temp[1:-1]
-    jayson = "{\"relations\":" + temp + "}"
+    #myString = temp[1:-1]
+
+    df2 = db.session.query(RelationContacts).limit(30).all()
+    temp2 = json.dumps(df2, cls = AlchemyEncoder)
+    #print(temp2)
+    #print(type(temp2))
+
+    jayson = "{\"relations\":" + temp   + "\"nodes\":" + temp2      + "}"
+
     print(jayson)
-    print(type(json.loads(jayson)))
+    print(type(json))
+
+
+
+
+    #print(jayson)
+    #print(type(json.loads(jayson)))
     return jayson
 
     q3 = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName,RelationContacts.

@@ -257,7 +257,10 @@
             }).appendTo("body");
         });*/
         $.getJSON("http://localhost:5000/all", function(data) {
-            console.log(data);
+            data.relations.forEach(printValues)
+            function printValues(value, key){
+                console.log('RelationId: ' + value.RelationId + ' LeftContactId: ' + value.LeftContactId + ' RightContactId: ' + value.RightContactId + ' RelationTypeId: ' + value.RelationTypeId )
+            }
         });
     </script>
 </body>

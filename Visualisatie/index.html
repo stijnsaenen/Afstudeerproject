@@ -223,44 +223,55 @@
             .attr("width", (4 / 7) * width * 0.65)
             .attr("height", height * 0.24)
 
-        /*$.ajax({
-            dataType: "json",
-            url: 'http://localhost:5000/all',
-            data: 'relations',
-            success: function(data) {
-                var items = [];
-                $.each(data, function(key, val) {
-                    items.push("<li id='" + key + "'>" + val + "</li>");
-                });
-                $("<ul/>", {
-                    "class": "my-new-list",
-                    html: items.join("")
-                }).appendTo("body");
+     // example replacer function
+        function replacer(name, val) {
+            // convert RegExp to string
+            if (val && val.constructor === RegExp) {
+                return val.toString();
+            } else if (name === 'CreatedDateUtc') { // 
+                return undefined; // remove from result
+            } else if (name === 'HideFromCustomer') { // 
+                return undefined; // remove from result
+            }else if (name === 'ModifiedDateUtc') { // 
+                return undefined; // remove from result
+            }else if (name === 'classes') { // 
+                return undefined; // remove from result
+            }else if (name === 'prepare') { // 
+                return undefined; // remove from result
+            }else if (name === 'relationcontacts') { // 
+                return undefined; // remove from result
+            }else if (name === 'relationfieldvalues_collection') { // 
+                return undefined; // remove from result
+            }else if (name === 'relationtypes') { // 
+                return undefined; // remove from result
+            }else if (name === 'RelationValidationStatus') { // 
+                return undefined; // remove from result
+            } else {
+                return val; // return as is
             }
-        })*/
-        /*
-                var response = $.ajax({
-                    method: 'GET',
-                    url: 'http://localhost:5000/all',
-                    dataType: 'json', //change the datatype to 'jsonp' works in most cases
-                })
-                console.log(response)*/
-        /*$.getJSON("http://localhost:5000/all", function(data) {
-            var items = [];
-            $.each(data.relations, function(key, val) {
-                items.push("<li>" + key + " " + val.RelationId + "</li>");
-            });
+        };
 
-            $("<ul/>", {
-                "class": "my-new-list",
-                html: items.join("")
-            }).appendTo("body");
-        });*/
-        $.getJSON("http://localhost:5000/all", function(data) {
-            data.relations.forEach(printValues)
-            function printValues(value, key){
-                console.log('RelationId: ' + value.RelationId + ' LeftContactId: ' + value.LeftContactId + ' RightContactId: ' + value.RightContactId + ' RelationTypeId: ' + value.RelationTypeId )
-            }
+        $.getJSON("http://localhost:5000/all", function (json) {
+            var result = JSON.stringify(json, replacer, 4);
+            result = result.replace(/LeftContactId/gi, "source");
+            result = result.replace(/relations/gi, "Links");
+            result = result.replace(/RightContactId/gi, "target");
+            
+           
+            console.log(result);
         });
+        function replaceAll(){
+
+        }
+
+        /*$.getJSON("http://localhost:5000/all", function(data) {
+            var myjson="";
+            data.relations.forEach(printValues)
+            function printValues(value){
+                myjson += "{source: " + value.LeftContactId + ", target: " + value.RightContactId + "},";
+            }
+            JSON.stringify(myjson);
+            console.log(myjson);
+        });*/
     </script>
 </body>

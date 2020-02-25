@@ -112,7 +112,7 @@ def all():
     #print(temp2)
     #print(type(temp2))
 
-    jayson = "{\"relations\":" + temp   + "\"nodes\":" + temp2      + "}"
+    jayson = "{\"relations\":" + temp   + " , \"nodes\":" + temp2      + "}"
 
     print(jayson)
     print(type(json))

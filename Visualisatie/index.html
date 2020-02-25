@@ -54,6 +54,7 @@
         float: left;
         clear: none;
     }
+
 </style>
 
 <body>
@@ -183,17 +184,24 @@
                 .style("fill", "white")
                 .style("stroke", "black")
 
-            var text1 = d3.select('.info').append("text")
-                .attr("dy", "1em")
-                .attr("dx", 5)
-                .attr("text-anchor", "start")
-                .text("Contact name: " + d.name)
+            var i = 1;
+            d3.keys(d).forEach(printText)
+            function printText(key) {
+                //if (key != ("index") && key !=("weight") && key != ("x") && key != ("y") && key != ("px") && key != ("py") && key != ("fixed")) {
+                    d3.select('.info').append("text")
+                        .attr("dy", i + "em")
+                        .attr("dx", 5)
+                        .attr("text-anchor", "start")
+                        .text(key + ": " + d[key])
+                    i++;
+                //}
+            }
 
-            var text2 = d3.select('.info').append("text")
+            /*var text2 = d3.select('.info').append("text")
                 .attr("dy", "2em")
                 .attr("dx", 5)
                 .attr("text-anchor", "start")
-                .text("Placeholder: " + "placeholder text")
+                .text("Placeholder: " + "placeholder text")*/
 
 
             var infoBbox = d3.select('.info').node().getBBox()
@@ -223,7 +231,7 @@
             .attr("width", (4 / 7) * width * 0.65)
             .attr("height", height * 0.24)
 
-     // example replacer function
+        // example replacer function
         function replacer(name, val) {
             // convert RegExp to string
             if (val && val.constructor === RegExp) {
@@ -232,104 +240,108 @@
                 return undefined; // remove from result
             } else if (name === 'HideFromCustomer') { // 
                 return undefined; // remove from result
-            }else if (name === 'ModifiedDateUtc') { // 
+            } else if (name === 'ModifiedDateUtc') { // 
                 return undefined; // remove from result
-            }else if (name === 'classes') { // 
+            } else if (name === 'classes') { // 
                 return undefined; // remove from result
-            }else if (name === 'prepare') { // 
+            } else if (name === 'prepare') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationcontacts') { // 
+            } else if (name === 'relationcontacts') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationfieldvalues_collection') { // 
+            } else if (name === 'relationfieldvalues_collection') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationtypes') { // 
+            } else if (name === 'relationtypes') { // 
                 return undefined; // remove from result
-            }else if (name === 'RelationValidationStatus') { // 
+            } else if (name === 'RelationValidationStatus') { // 
                 return undefined; // remove from result
             } else if (name === 'ActivityKind') { // 
                 return undefined; // remove from result
-            }else if (name === 'CompanyForm') { // 
+            } else if (name === 'CompanyForm') { // 
                 return undefined; // remove from result
-            }else if (name === 'ContactCapStatus') { // 
+            } else if (name === 'ContactCapStatus') { // 
                 return undefined; // remove from result
-            }else if (name === 'ContactCapStatusMessage') { // 
+            } else if (name === 'ContactCapStatusMessage') { // 
                 return undefined; // remove from result
-            }else if (name === 'ContactKind') { // 
+            } else if (name === 'ContactKind') { // 
                 return undefined; // remove from result
-            }else if (name === 'Distance') { // 
+            } else if (name === 'Distance') { // 
                 return undefined; // remove from result
-            }else if (name === 'DocumentsLanguage') { // 
+            } else if (name === 'DocumentsLanguage') { // 
                 return undefined; // remove from result
-            }else if (name === 'ExpirationDate') { // 
+            } else if (name === 'ExpirationDate') { // 
                 return undefined; // remove from result
-            }else if (name === 'ForeignVatNumber') { // 
+            } else if (name === 'ForeignVatNumber') { // 
                 return undefined; // remove from result
-            }else if (name === 'ForeignVatNumberValidationStatus') { // 
+            } else if (name === 'ForeignVatNumberCountry') { // 
                 return undefined; // remove from result
-            }else if (name === 'ForeignVatNumbers') { // 
+            } else if (name === 'VatNumberValidationStatus') { // 
                 return undefined; // remove from result
-            }else if (name === 'IdentificationNumber') { // 
+            } else if (name === 'ForeignVatNumberValidationStatus') { // 
                 return undefined; // remove from result
-            }else if (name === 'IsNewCompany') { // 
+            } else if (name === 'ForeignVatNumbers') { // 
                 return undefined; // remove from result
-            }else if (name === 'IsNonEuCompany') { // 
+            } else if (name === 'IdentificationNumber') { // 
                 return undefined; // remove from result
-            }else if (name === 'IsPep') { // 
+            } else if (name === 'IsNewCompany') { // 
                 return undefined; // remove from result
-            }else if (name === 'LessOrMoreAmount') { // 
+            } else if (name === 'IsNonEuCompany') { // 
                 return undefined; // remove from result
-            }else if (name === 'NaceCode') { // 
+            } else if (name === 'IsPep') { // 
                 return undefined; // remove from result
-            }else if (name === 'NickName') { // 
+            } else if (name === 'LessOrMoreAmount') { // 
                 return undefined; // remove from result
-            }else if (name === 'NotLiableToVat') { // 
+            } else if (name === 'NaceCode') { // 
                 return undefined; // remove from result
-            }else if (name === 'Passport') { // 
+            } else if (name === 'NickName') { // 
                 return undefined; // remove from result
-            }else if (name === 'PepCount') { // 
+            } else if (name === 'NotLiableToVat') { // 
                 return undefined; // remove from result
-            }else if (name === 'RecurrentOrOccasionalCustomer') { // 
+            } else if (name === 'Passport') { // 
                 return undefined; // remove from result
-            }else if (name === 'RegistrationNumber') { // 
+            } else if (name === 'PepCount') { // 
                 return undefined; // remove from result
-            }else if (name === 'VatNumber') { // 
+            } else if (name === 'RecurrentOrOccasionalCustomer') { // 
                 return undefined; // remove from result
-            }else if (name === 'VatNumberCountry') { // 
+            } else if (name === 'RegistrationNumber') { // 
                 return undefined; // remove from result
-            }else if (name === 'classes') { // 
+            } else if (name === 'VatNumber') { // 
                 return undefined; // remove from result
-            }else if (name === 'clients') { // 
+            } else if (name === 'VatNumberCountry') { // 
                 return undefined; // remove from result
-            }else if (name === 'contactcaps_collection') { // 
+            } else if (name === 'classes') { // 
                 return undefined; // remove from result
-            }else if (name === 'contactinterests_collection') { // 
+            } else if (name === 'clients') { // 
                 return undefined; // remove from result
-            }else if (name === 'contactsubscribers_collection') { // 
+            } else if (name === 'contactcaps_collection') { // 
                 return undefined; // remove from result
-            }else if (name === 'customers') { // 
+            } else if (name === 'contactinterests_collection') { // 
                 return undefined; // remove from result
-            }else if (name === 'prepare') { // 
+            } else if (name === 'contactsubscribers_collection') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationcontactaddresses_collection') { // 
+            } else if (name === 'customers') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationcontacts') { // 
+            } else if (name === 'prepare') { // 
                 return undefined; // remove from result
-            }else if (name === 'relationcontacts_collection') { // 
+            } else if (name === 'relationcontactaddresses_collection') { // 
                 return undefined; // remove from result
-            }else if (name === 'relations_collection') { // 
+            } else if (name === 'relationcontacts') { // 
+                return undefined; // remove from result
+            } else if (name === 'relationcontacts_collection') { // 
+                return undefined; // remove from result
+            } else if (name === 'relations_collection') { // 
                 return undefined; // remove from result
             } else {
                 return val; // return as is
             }
         };
 
-        $.getJSON("http://localhost:5000/all", function (json) {
+        $.getJSON("http://localhost:5000/all", function(json) {
             var result = JSON.stringify(json, replacer, 4);
             result = result.replace(/LeftContactId/gi, "source");
             result = result.replace(/relations/gi, "links");
             result = result.replace(/RightContactId/gi, "target");
-            
-           
+
+
             console.log(result);
         });
         /*$.getJSON("http://localhost:5000/all", function(data) {
@@ -341,5 +353,6 @@
             JSON.stringify(myjson);
             console.log(myjson);
         });*/
+
     </script>
 </body>

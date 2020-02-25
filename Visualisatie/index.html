@@ -324,6 +324,7 @@
         };
 
         $.getJSON("http://localhost:5000/all", function (json) {
+            console.log(result);
             var result = JSON.stringify(json, replacer, 4);
             result = result.replace(/LeftContactId/gi, "source");
             result = result.replace(/relations/gi, "links");

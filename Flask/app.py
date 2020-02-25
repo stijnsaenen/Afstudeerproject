@@ -10,13 +10,18 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template, request, redirect, Response
 import urllib
+import time
 from datetime import datetime
 from sqlalchemy.ext.automap import automap_base
-
+from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy import inspect
 app = Flask(__name__)
 
 
 paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER=vhuat.database.windows.net;PORT=1433;DATABASE=vhportal-prod-copy-2020-2-21-16-13;UID=AzureDB_admin;PWD=P@55w0rd')
+
+def obj_as_dict(obj):
+    return {c.key: getattr(obj,c.key) for c in inspect(obj).mapper.column_attrs}
 
 
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS']
@@ -26,6 +31,7 @@ db = SQLAlchemy(app)
 
 
 #RelationContacts = db.Table('RelationContacts', db.metadata, autoload=True, autoload_with=db.engine)
+
 
 
 Base = automap_base()
@@ -102,20 +108,33 @@ def index():
 
 @app.route ('/all', methods=['GET'])
 def all():
+    a = time.time()
     df = db.session.query(Relations).limit(30).all()
-
-    temp = json.dumps(df, cls=AlchemyEncoder)
+    print(time.time() - a)
+    a = time.time()
+    temp = [obj_as_dict(df[i]) for i in range(len(df))]
+    print(type(temp))
+    print(time.time() - a)
+    a = time.time()
     #myString = temp[1:-1]
 
-    df2 = db.session.query(RelationContacts).limit(30).all()
-    temp2 = json.dumps(df2, cls = AlchemyEncoder)
+    df = db.session.query(RelationContacts).limit(30).all()
+    print(time.time() - a)
+    a = time.time() 
+    temp2  = [obj_as_dict(df[i]) for i in range(len(df))]
+
+    print(time.time() - a)
+    a = time.time()
     #print(temp2)
     #print(type(temp2))
-
-    jayson = "{\"relations\":" + temp   + " , \"nodes\":" + temp2      + "}"
-
-    print(jayson)
-    print(type(json))
+    print(time.time() - a)
+    a = time.time()
+    print(type(temp2))
+    jayson = "{\"relations\":" + str(temp)   + " , \"nodes\":" + str(temp2)      + "}"
+    print(time.time() - a)
+    a = time.time()
+    #print(jayson)
+    #print(type(json))
 
 
 

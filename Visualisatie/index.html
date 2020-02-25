@@ -254,16 +254,12 @@
         $.getJSON("http://localhost:5000/all", function (json) {
             var result = JSON.stringify(json, replacer, 4);
             result = result.replace(/LeftContactId/gi, "source");
-            result = result.replace(/relations/gi, "Links");
+            result = result.replace(/relations/gi, "links");
             result = result.replace(/RightContactId/gi, "target");
             
            
             console.log(result);
         });
-        function replaceAll(){
-
-        }
-
         /*$.getJSON("http://localhost:5000/all", function(data) {
             var myjson="";
             data.relations.forEach(printValues)

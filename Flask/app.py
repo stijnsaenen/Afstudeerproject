@@ -13,8 +13,6 @@ import urllib
 from datetime import datetime
 from sqlalchemy.ext.automap import automap_base
 
-#import sqlalchemy
-
 app = Flask(__name__)
 
 
@@ -24,52 +22,10 @@ paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVE
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS']
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % paramsdb
  
-
 db = SQLAlchemy(app)
 
-select_query_RelationContacts = '''SELECT * FROM ucllDB.dbo.RelationContacts'''
-select_query_ST = '''SELECT LeftContactId, RightContactId FROM Databaas.dbo.Relations'''
 
-
-RelationContacts = db.Table('RelationContacts', db.metadata, autoload=True, autoload_with=db.engine)
-
-
-
-# class RelationContacts(db.Model):
-#     ContactId= db.Column(db.Integer, primary_key=True)
-#     ContactName = db.Column(db.String(50))
-#     ContactKind = db.Column(db.Integer)
-#     CustomerId = db.Column(db.Integer)
-#     ClientId = db.Column(db.Integer)
-#     ContactEmail = db.Column(db.String(50))
-#     ContactPhone = db.Column(db.Integer)
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     CompanyName = db.Column(db.String(50))
-
-# class Relations(db.Model):
-#     RelationId= db.Column(db.Integer, primary_key=True)
-#     RelationTypeId = db.Column(db.Integer)
-#     LeftContactId = db.Column(db.Integer)
-#     RightContactId = db.Column(db.Integer)
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     HideFromCustomer = db.Column(db.Boolean)
-#     RelationValidationStatus = db.Column(db.Integer)
-
-# class RelationTypes(db.Model):
-#     RelationTypeId= db.Column(db.Integer, primary_key=True)
-#     DisplayName = db.Column(db.String(50))
-#     LeftContactTitle = db.Column(db.String(50))
-#     RightContactTitle = db.Column(db.String(50))
-#     CreatedDateUtc = db.Column(db.String(50))
-#     ModifiedDateUtc = db.Column(db.String(50))
-#     IsSystem = db.Column(db.Boolean)
-#     SystemName = db.Column(db.String(50))
-#     IsPepRelevant = db.Column(db.Boolean)
-
-
-    
+#RelationContacts = db.Table('RelationContacts', db.metadata, autoload=True, autoload_with=db.engine)
 
 
 Base = automap_base()
@@ -99,6 +55,7 @@ class AlchemyEncoder(json.JSONEncoder):
 
         return json.JSONEncoder.default(self, obj)
 
+
 @app.after_request
 def after_request(response):
   response.headers.add('Access-Control-Allow-Origin', '*')
@@ -106,13 +63,41 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   return response
 
-@app.route('/')
+
+
+
+def parse_to_json(data,names):
+    result = dict()
+    for j in range(len(data)):
+        item = data[j]
+        persoon_dict = dict()
+        for i in range(len(names)):
+            persoon_dict[names[i]] = data[j][i]
+        result[j] = persoon_dict
+    return result
+
+
+
+
+
+@app.route ('/', methods=['GET'])
 def index():
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(30).all()
+    tem = parse_to_json(df,["id","name"])
+    print(tem)
+    temquotes = json.dumps(tem)
+    tq = json.loads(temquotes)
+    print(type(tem))
+    print(type(temquotes))
+    print(tq)
+    print(type(tq))
 
-    result = db.session.query(RelationTypes).join(Relations, RelationTypes.RelationTypeId == Relations.RelationTypeId).count()
+    #result = db.engine.execute("select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in(select RelationContacts.ContactIdfrom RelationContacts inner join relations ON (RelationContacts.ContactId = relations.LeftContactId)  inner join RelationContacts   ON (RelationContacts.ContactId = relations.RightContactId) inner join RelationTypes ON (RelationTypes.RelationTypeId = relations.RelationTypeId) where RelationContacts.ContactName like '%<zoekterm>%' or RelationContacts.CompanyName like '%la%' or RelationContacts.ContactPhone like '%la%' or RelationContacts.ContactEmail like '%la%' or RelationContacts.VatNumber like '%la%' or RelationContacts.ErpCode like '%la%' or RelationContacts.Passport like '%la%' or RelationContacts.MobilePhone like '%la%') union select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in (select b.ContactId from RelationContacts a inner join relations y ON (a.ContactId = y.LeftContactId)  inner join RelationContacts b   ON (b.ContactId = y.RightContactId) inner join RelationTypes t ON (t.RelationTypeId = y.RelationTypeId) where b.ContactName like '%la%' or b.CompanyName like '%la%' or b.ContactPhone like '%la%' or b.ContactEmail like '%la%' or b.VatNumber like '%la%' or b.ErpCode like '%la%' or b.Passport like '%la%' or b.MobilePhone like '%la%') order by 1")
+    #print(result)
 
-    return ""
-#    return render_template('index.html', name='Joe')
+
+
+    return render_template("index.html", idname = temquotes)
 
 
 @app.route ('/all', methods=['GET'])
@@ -120,62 +105,27 @@ def all():
     df = db.session.query(Relations).limit(30).all()
 
     temp = json.dumps(df, cls=AlchemyEncoder)
-    print(json.loads(temp))
-    print(type(json.loads(temp)[0]))
-    dic = dict()
+    #myString = temp[1:-1]
 
-    for entry in json.loads(temp):
-        dic.update(entry)
+    df2 = db.session.query(RelationContacts).limit(30).all()
+    temp2 = json.dumps(df2, cls = AlchemyEncoder)
+    #print(temp2)
+    #print(type(temp2))
 
-    print(dic)
-    print(type(dic))
-    print(type(temp))
+    jayson = "{\"relations\":" + temp   + "\"nodes\":" + temp2      + "}"
 
-    myString = temp[1:-1]
-    print(myString)
-
-    jayson = "{\"relations\": " + temp + "}"
     print(jayson)
-    return jayson
+    print(type(json))
 
-    nodelist=[]
-    # for q in df:
-    #     rel = []
-    #     rel.append(q.LeftContactId)
-    #     nodelist.append(q.LeftContactId)
-    #     nodelist.append(q.RightContactId)
-    #     rel.append(q.RightContactId)
-    #     rel.append(q.RelationId)
-    #     rel.append(q.RelationTypeId)
-    #     relations.append(rel)
-    # print(relations)
-    # print(str(relations))
-    # print(set(nodelist))
-    
-    # q2 = db.session.query(RelationContacts.ContactId,RelationContacts.ContactName).filter(RelationContacts.ContactId.in_(relations)).all()
-    # print(q2)
-    # for node in q2:
-    #     print(node.ContactName)
+
+
+
+    #print(jayson)
+    #print(type(json.loads(jayson)))
+    return jayson
 
     q3 = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName,RelationContacts.
     CustomerId, RelationContacts.ClientId, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId.in_(set(nodelist))).all()
-
-
-    nodes = []
-    for bo in q3:
-        nodes.append([bo.ContactId, bo.ContactName,bo.
-    CustomerId, bo.ClientId, bo.ContactEmail, bo.ContactPhone, bo.CompanyName])
-    print(nodes)
-
-
-    
-   # df = pd.read_sql(query.statement, query.session.bind)
-   #jseun = 
-    #print(jsonify(df))
-    # for r in res:
-    #     print(r.LeftContactId, r.RightContactId)
-    
-    #return ""
 
 
 # @app.route('/a')
@@ -193,6 +143,18 @@ def all():
 #      try:
 # #         word = request.args.get('word')
 #     return result = ''
+
+
+@app.route('/requestID', methods = ['GET'])
+def requestID():
+    data = request.data
+    namelong = str(data)
+    name = namelong[2:-1]
+    print(name)
+    
+    q3 = db.session.query(RelationContacts.ContactId).filter(RelationContacts.ContactName == name).first()
+    print(json.dumps(q3, cls=AlchemyEncoder))
+    return json.dumps(q3, cls=AlchemyEncoder)
        
 
 
@@ -210,7 +172,3 @@ def worker():
 if __name__ == '__main__':
 	# run!
 	app.run()
-
-#@app.route('ContactName')
-#def get_contact(ContactName):
-#    contact = RelationContacts.query.filter

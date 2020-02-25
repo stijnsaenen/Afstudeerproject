@@ -1,91 +1,227 @@
 <!DOCTYPE html>
-<html>
-<head>
-<style>
-    #myInput {
-  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
-  background-position: 10px 12px; /* Position the search icon */
-  background-repeat: no-repeat; /* Do not repeat the icon image */
-  width: 100%; /* Full-width */
-  font-size: 16px; /* Increase font-size */
-  padding: 12px 20px 12px 40px; /* Add some padding */
-  border: 1px solid #ddd; /* Add a grey border */
-  margin-bottom: 12px; /* Add some space below the input */
-}
-
-#myUL {
-  /* Remove default list styling */
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#myUL li a {
-  border: 1px solid #ddd; /* Add a border to all links */
-  margin-top: -1px; /* Prevent double borders */
-  background-color: #f6f6f6; /* Grey background color */
-  padding: 12px; /* Add some padding */
-  text-decoration: none; /* Remove default text underline */
-  font-size: 18px; /* Increase the font-size */
-  color: black; /* Add a black text color */
-  display: block; /* Make it into a block element to fill the whole list */
-}
-
-#myUL li a:hover:not(.header) {
-  background-color: #eee; /* Add a hover effect to all links, except for headers */
-}</style>
 <meta charset="utf-8">
-<title>Pandas D3 Force Directed Example - www.austintaylor.io</title>
+<link rel="icon" type="image/png" href="logohead.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://d3js.org/d3.v2.min.js?2.9.3"></script>
+<style>
+    .link {
+        stroke: #aaa;
+    }
 
+    .node text {
+        stroke: #333;
+        cursor: pointer;
+    }
 
-<script 
+    .node circle {
+        stroke: #555;
+        stroke-width: 1px;
+        fill: beige;
+        cursor: pointer;
+    }
 
-src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-family: "Raleway", sans-serif
+    }
 
-<script type="text/javascript">
-// setup some JSON to use
-var cars = [
-	{ "make":"Porsche", "model":"911S" },
-	{ "make":"Mercedes-Benz", "model":"220SE" },
-	{ "make":"Jaguar","model": "Mark VII" }
-];
+    #area1 {
+        float: left;
+        clear: none;
+        padding-left: 10%;
+        padding-right: 10px;
 
-window.onload = function() {
-	// setup the button click
-	document.getElementById("theButton").onclick = function() {
-		doWork()
-	};
-}
+    }
 
-function doWork() {
-	$.ajax({
-  type: 'POST',
-  url: "receiver",
-  contentType: "application/json; charset=utf-8",
-  data: JSON.stringify(cars),
-  success: function(result){
-    console.log(result)
-  }
-});
-}
-</script>
-    </head>
+    #area2 {
+        float: left;
+        clear: none;
+    }
+
+    #area2 svg {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+    }
+
+    #area3 {
+        float: left;
+        clear: none;
+    }
+
+</style>
+
 <body>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    <header class="w3-container w3-center w3-padding-32">
+        <img src="fototop.png">
+        <form style="float:right;display:inline-block;line-height:52px;padding-right:168px;padding-top:40px">
+				<input type="text" name="searchbar" placeholder="search.." size="99">
+			</form>
+    </header>
 
-<ul id="myUL">
-  <li><a href="#">Adele</a></li>
-  <li><a href="#">Agnes</a></li>
+    <div id="area1"></div>
 
-  <li><a href="#">Billy</a></li>
-  <li><a href="#">Bob</a></li>
+    <div id="area2"></div>
 
-  <li><a href="#">Calvin</a></li>
-  <li><a href="#">Christina</a></li>
-  <li><a href="#">Cindy</a></li>
-</ul>
-This will send data using AJAX to Python:<br /><br />
-<a id="theButton">Click Me</a>
+    <div id="area3"></div>
 
-    </body>
-</html>
+    <script>
+        var width = window.innerWidth,
+            height = 800
+
+        // Network window
+
+        var svg = d3.select("#area1").append("svg")
+            .attr("width", (3 / 7) * width)
+            .attr("height", height * 0.8);
+        
+        
+        var borderPath = svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", (3 / 7) * width)
+            .attr("height", height * 0.8)
+            .style("stroke", "black")
+            .style("fill", "white")
+            .style("stroke-width", 1)
+
+        var force = d3.layout.force()
+            .gravity(.05)
+            .distance(100)
+            .charge(-300)
+            .size([(3 / 7) * width, height * 0.8]);
+
+        d3.json("graph.json", function(json) {
+            force
+                .nodes(json.nodes)
+                .links(json.links)
+                .start();
+
+            var link = svg.selectAll(".link")
+                .data(json.links)
+                .enter().append("line")
+                .attr("class", "link")
+                .style("stroke-width", function(d) {
+                    return Math.sqrt(d.weight);
+                });
+
+            var node = svg.selectAll(".node")
+                .data(json.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .on("click", smaller)
+                .call(force.drag);
+
+            node.append("circle")
+                .attr("r", "17");
+
+            node.append("text")
+                .attr("dx", 0)
+                .attr("dy", ".35em")
+                .attr("y", -25)
+                .style("text-anchor", "middle")
+                .text(function(d) {
+                    return d.name
+                });
+
+            var tip;
+            var xSpacing = 25;
+            var ySpacing = 40;
+
+            function sendInfo(d) {
+                showInfo(d);
+            }
+
+            node.on("mouseover", function(d) {
+                sendInfo(d);
+            });
+
+
+            force.on("tick", function() {
+                link.attr("x1", function(d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function(d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function(d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function(d) {
+                        return d.target.y;
+                    });
+
+                node.attr("transform", function(d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+            });
+
+        });
+
+        function smaller() {
+            d3.select(".test").remove();
+            d3.select(".info").remove();
+        }
+
+        var infoArea;
+        var contactInfo = d3.select('#area2').append("svg")
+            .attr("width", (4 / 7) * width * 0.65)
+            .attr("height", height * 0.55)
+
+        function showInfo(d) {
+            if (infoArea) infoArea.remove();
+
+            infoArea = contactInfo.append("g")
+                .attr('class', 'info')
+
+            var rect = d3.select('.info').append("rect")
+                .style("fill", "white")
+                .style("stroke", "black")
+
+            var text1 = d3.select('.info').append("text")
+                .attr("dy", "1em")
+                .attr("dx", 5)
+                .attr("text-anchor", "start")
+                .text("Contact name: " + d.name)
+
+            var text2 = d3.select('.info').append("text")
+                .attr("dy", "2em")
+                .attr("dx", 5)
+                .attr("text-anchor", "start")
+                .text("Placeholder: " + "placeholder text")
+
+
+            var infoBbox = d3.select('.info').node().getBBox()
+        };
+
+
+        var legendInfo = d3.select('#area3').append("svg")
+            .attr("width", (4 / 7) * width * 0.8)
+            .attr("height", height * 0.3)
+
+        var legendArea = legendInfo.append("g")
+            .attr('class', 'legend')
+
+        var rect = d3.select('.legend').append("rect")
+            .style("fill", "white")
+            .style("stroke", "black")
+
+        var text1 = d3.select('.legend').append("text")
+            .attr("dy", "1em")
+            .attr("dx", 5)
+            .attr("text-anchor", "start")
+            .text("Placeholder legende")
+
+        var legendBox = d3.select('.legend').node().getBBox()
+        rect.attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y)
+            .attr("width", (4 / 7) * width * 0.65)
+            .attr("height", height * 0.24)
+
+    </script>
+</body>

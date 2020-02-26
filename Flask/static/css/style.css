@@ -13,9 +13,9 @@
     fill: beige;
     cursor: pointer;
 }
-body{
+/* body{
     background-color: #aaa;
-}
+} */
 
 body,
 h1,
@@ -26,6 +26,26 @@ h5 {
     font-family: "Raleway", sans-serif
 }
 .een{
+    background-color: white;
+    margin: 100px 20px 20px 20px;
+}
+.twee{
+    background-color: white;
+    margin: 20px;
+}
+.drie{
+    background-color: white;
+    margin: 20px;
+}
+.vier{
+    background-color: white;
+    margin: 20px;
+}
+.vijf{
+    background-color: white;
+    margin: 20px;
+}
+/* .een{
     background-color: red;
     margin: 100px 20px 20px 20px;
 }
@@ -44,4 +64,4 @@ h5 {
 .vijf{
     background-color: fuchsia;
     margin: 20px;
-}
+} */

@@ -15,7 +15,8 @@
 <body>
     <!--Main Navigation-->
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar warning-color">
+        <nav
+            class="navbar fixed-top navbar-expand-lg peach-gradient lighten-3 py-4 mb-4 font-weight-bold z-depth-1 scrolling-navbar ">
             <a class="navbar-brand" href="/index.html">
                 <strong class="text-white"><b>VAN HAVERMAET</b></strong>
                 <!-- <img src="https://mdbootstrap.com/img/logo/mdb-transparent.png" height="30" alt="mdb logo"> -->
@@ -38,11 +39,6 @@
                     </li>
                 </ul>
             </div>
-            <form class="form-inline">
-                <div class="md-form my-0">
-                    <input class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
-                </div>
-            </form>
         </nav>
     </header>
 
@@ -51,7 +47,7 @@
 
 
     <!-- Start your project here-->
-    <div class="container mt-5">
+    <!-- <div class="container mt-5">
         <div class="row">
             <div class="col-md-6 m-auto">
                 <h3 class="text-center-mb-3">
@@ -63,8 +59,11 @@
                 <div id="match-list"></div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- End your project here-->
+
+
+
     <!-- Grid row -->
     <div class="container-fluid gridgroot">
         <div class="row een align-items-center">
@@ -78,21 +77,22 @@
             <div class="col-md-3 ml-auto drie">
                 <div class="row">
                     <div class="col vier">
-                        <div class="card example-1 scrollbar-deep-purple bordered-deep-purple thin">
-                            <div class="card-body">
-                                <!-- <div id="area2"></div> -->
-                                <!-- Card -->
-                                <div class="card">
-                                    <!-- Card content -->
-                                    <p>ETST</p>
-                                    <p>ETST</p>
-                                    <p>ETST</p>
-                                    <p>ETST</p>
-                                    <p>ETST</p>
-                                </div>
-                                <!-- Card -->
+                        <h4>Enter a name and press search</h4>
+                        <div class="active-black-3 active-black-4 mb-4">
+                            <input class="form-control" id="search" type="text" placeholder="Search"
+                                aria-label="Search">
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn peach-gradient lighten-3 py-4 mb-4  z-depth-1 dropdown-toggle"
+                                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Search
+                            </button>
+                            <div class="dropdown-menu" id="match-list" aria-labelledby="dropdownMenuButton">
                             </div>
                         </div>
+
+
                     </div>
                 </div>
                 <div class="row">
@@ -100,22 +100,7 @@
                         <div class="card example-1 scrollbar-deep-purple bordered-deep-purple thin">
                             <div class="card-body">
                                 <!-- <div id="area3"></div> -->
-                                <!-- Card -->
-                                <div class="card">
-                                    <!-- Card content -->
-                                    <div class="card-body">
-
-                                        <!-- Title -->
-                                        <h4 class="card-title"><a>Card title</a></h4>
-                                        <!-- Text -->
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's
-                                            content.</p>
-                                        <!-- Button -->
-                                    </div>
-
-                                </div>
-                                <!-- Card -->
+                                <div id="area2"></div>
                             </div>
                         </div>
                     </div>
@@ -129,17 +114,11 @@
 
 
 
-    <!-- Footer -->
-    <footer class="page-footer font-small warning-color fixed-bottom">
-
-        <!-- Copyright -->
+    <!-- <footer class="page-footer font-small warning-color fixed-bottom">
         <div class="footer-copyright text-center py-3">© 2020 Project AI Van HaverMaet x UCLL
         </div>
-        <!-- Copyright -->
-
     </footer>
-    <!-- Footer -->
-
+ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/network.js"></script>
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>

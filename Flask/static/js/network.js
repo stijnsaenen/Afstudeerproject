@@ -15,9 +15,9 @@ var borderPath = svg.append("rect")
     .attr("y", 0)
     .attr("width", width)
     .attr("height", height)
-    //.style("stroke", "black")
+    /* .style("stroke", "black") */
     .style("fill", "white")
-//.style("stroke-width", 1)
+/* .style("stroke-width", 1) */
 
 var force = d3.layout.force()
     .gravity(.07)
@@ -99,8 +99,8 @@ function smaller() {
 
 var infoArea;
 var contactInfo = d3.select('#area2').append("svg")
-    .attr("width", (4 / 7) * width * 0.65)
-    .attr("height", height * 0.55)
+/* .attr("width", (4 / 7) * width * 0.65)
+.attr("height", height * 0.55) */
 
 function showInfo(d) {
     if (infoArea) infoArea.remove();
@@ -108,23 +108,19 @@ function showInfo(d) {
     infoArea = contactInfo.append("g")
         .attr('class', 'info')
 
-    var rect = d3.select('.info').append("rect")
-        .style("fill", "white")
-        .style("stroke", "black")
+    var i = 1;
+    d3.keys(d).forEach(printText)
+    function printText(key) {
+        //if (key != ("index") && key !=("weight") && key != ("x") && key != ("y") && key != ("px") && key != ("py") && key != ("fixed")) {
+        d3.select('.info').append("text")
+            .attr("dy", i + "em")
+            .attr("dx", 5)
+            .attr("text-anchor", "start")
+            .text(key + ": " + d[key])
+        i++;
+        //}
 
-    var text1 = d3.select('.info').append("text")
-        .attr("dy", "1em")
-        .attr("dx", 5)
-        .attr("text-anchor", "start")
-        .text("Contact name: " + d.name)
-
-    var text2 = d3.select('.info').append("text")
-        .attr("dy", "2em")
-        .attr("dx", 5)
-        .attr("text-anchor", "start")
-        .text("Placeholder: " + "placeholder text")
-
-
+    }
     var infoBbox = d3.select('.info').node().getBBox()
 };
 

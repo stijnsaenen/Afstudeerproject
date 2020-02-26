@@ -71,7 +71,7 @@ const searchStates = async searchText => {
         matchList.innerHTML = '';
     }
 
-    if (search.value.length > 2) {
+    if (search.value.length > 0) {
         outputHtml(matches);
     }
 }
@@ -79,12 +79,9 @@ const searchStates = async searchText => {
 const outputHtml = matches => {
     if (matches.length > 0) {
         const html = matches.map(match => `
-        
-        <a onclick="sendIdToServer(${match.id})">
-            <div class="card card-body mb-1">
-                <h4>${match.name}</h4>
-            </div>
-        </a>
+
+        <a class="dropdown-item" onclick="sendIdToServer(${match.id})">${match.name}</a>
+    
         `).join('');
 
 

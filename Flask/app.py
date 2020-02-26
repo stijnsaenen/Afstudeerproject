@@ -23,6 +23,21 @@ paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVE
 def obj_as_dict(obj):
     return {c.key: getattr(obj,c.key) for c in inspect(obj).mapper.column_attrs}
 
+def param_as_dict(data, names):
+    result = dict()
+    for itemIndex in range(len(names)):
+        result[names[itemIndex]] = str(data[itemIndex])
+    return result
+
+def parse_to_json(data,names):
+    result = dict()
+    for j in range(len(data)):
+        item = data[j]
+        persoon_dict = dict()
+        for i in range(len(names)):
+            persoon_dict[names[i]] = data[j][i]
+        result[j] = persoon_dict
+    return result
 
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS']
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % paramsdb
@@ -72,15 +87,6 @@ def after_request(response):
 
 
 
-def parse_to_json(data,names):
-    result = dict()
-    for j in range(len(data)):
-        item = data[j]
-        persoon_dict = dict()
-        for i in range(len(names)):
-            persoon_dict[names[i]] = data[j][i]
-        result[j] = persoon_dict
-    return result
 
 
 
@@ -109,20 +115,23 @@ def index():
 @app.route ('/all', methods=['GET'])
 def all():
     a = time.time()
-    df = db.session.query(Relations).limit(30).all()
+    df = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId).limit(2).all()
+    print(df)
     print(time.time() - a)
     a = time.time()
-    temp = [obj_as_dict(df[i]) for i in range(len(df))]
+    temp = [param_as_dict(df[i],["RelationId","source", "target", "RelationTypeId"]) for i in range(len(df))]
+    #temp = [obj_as_dict(df[i]) for i in range(len(df))]
     print(type(temp))
     print(time.time() - a)
     a = time.time()
     #myString = temp[1:-1]
 
-    df = db.session.query(RelationContacts).limit(30).all()
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.CustomerId, RelationContacts.ClientId, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone , RelationContacts.CompanyName, RelationContacts.ErpCode, RelationContacts.VatNumber, RelationContacts.FirstName, RelationContacts.LastName, RelationContacts.Discriminator, RelationContacts.MobilePhone , RelationContacts.Website, RelationContacts.Location, RelationContacts.SeniorAssistantEmail, RelationContacts.AssistantEmail, RelationContacts.Language).limit(0).all()
     print(time.time() - a)
     a = time.time() 
-    temp2  = [obj_as_dict(df[i]) for i in range(len(df))]
-
+    #temp2  = [obj_as_dict(df[i]) for i in range(len(df))]
+    temp2 = [param_as_dict(df[i],["ContactId" ,"CustomerId" ,"ClientId" ,"ContactName" ,"ContactEmail" ,"ContactPhone" ,"CompanyName" ,"ErpCode" ,"VatNumber" ,"FirstName" ,"LastName" ,"Discriminator" ,"MobilePhone" ,"Website" ,"Location" ,"SeniorAssistantEmail" ,"AssistantEmail" ,"Language"]) for i in range(len(df))]
+    
     print(time.time() - a)
     a = time.time()
     #print(temp2)
@@ -130,7 +139,7 @@ def all():
     print(time.time() - a)
     a = time.time()
     print(type(temp2))
-    jayson = "{\"relations\":" + str(temp)   + " , \"nodes\":" + str(temp2)      + "}"
+    jayson = {'links':str(temp),'nodes':temp2}#"{\"links\":" + str(temp)   + " , \"nodes\":" + str(temp2)      + "}"
     print(time.time() - a)
     a = time.time()
     #print(jayson)
@@ -139,9 +148,9 @@ def all():
 
 
 
-    #print(jayson)
+    print(jayson)
     #print(type(json.loads(jayson)))
-    return jayson
+    return jsonify(jayson)
 
     q3 = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName,RelationContacts.
     CustomerId, RelationContacts.ClientId, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId.in_(set(nodelist))).all()

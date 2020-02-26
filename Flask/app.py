@@ -100,6 +100,27 @@ def index():
     return render_template("index.html", idname = temquotes)
 
 
+@app.route ('/id', methods=['GET'])
+def allesid():
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(30).all()
+    tem = parse_to_json(df,["id","name"])
+    print(tem)
+    temquotes = json.dumps(tem)
+    print(type(temquotes))
+
+    #result = db.engine.execute("select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in(select RelationContacts.ContactIdfrom RelationContacts inner join relations ON (RelationContacts.ContactId = relations.LeftContactId)  inner join RelationContacts   ON (RelationContacts.ContactId = relations.RightContactId) inner join RelationTypes ON (RelationTypes.RelationTypeId = relations.RelationTypeId) where RelationContacts.ContactName like '%<zoekterm>%' or RelationContacts.CompanyName like '%la%' or RelationContacts.ContactPhone like '%la%' or RelationContacts.ContactEmail like '%la%' or RelationContacts.VatNumber like '%la%' or RelationContacts.ErpCode like '%la%' or RelationContacts.Passport like '%la%' or RelationContacts.MobilePhone like '%la%') union select distinct contactId, contactName, CompanyName, ContactPhone, ContactEmail, VatNumber, ErpCode, Passport, MobilePhone from RelationContacts where contactId in (select b.ContactId from RelationContacts a inner join relations y ON (a.ContactId = y.LeftContactId)  inner join RelationContacts b   ON (b.ContactId = y.RightContactId) inner join RelationTypes t ON (t.RelationTypeId = y.RelationTypeId) where b.ContactName like '%la%' or b.CompanyName like '%la%' or b.ContactPhone like '%la%' or b.ContactEmail like '%la%' or b.VatNumber like '%la%' or b.ErpCode like '%la%' or b.Passport like '%la%' or b.MobilePhone like '%la%') order by 1")
+    #print(result)
+
+    return temquotes
+
+@app.route ('/receivePersonID', methods=['GET', 'POST'])
+def personID():
+    data = request.get_json() 
+    print(data)
+    result = ''
+
+    return ''
+
 @app.route ('/all', methods=['GET'])
 def all():
     df = db.session.query(Relations).limit(30).all()

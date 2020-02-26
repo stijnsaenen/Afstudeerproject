@@ -1,0 +1,47 @@
+.link {
+    stroke: #aaa;
+}
+
+.node text {
+    stroke: #333;
+    cursor: pointer;
+}
+
+.node circle {
+    stroke: #555;
+    stroke-width: 1px;
+    fill: beige;
+    cursor: pointer;
+}
+body{
+    background-color: #aaa;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Raleway", sans-serif
+}
+.een{
+    background-color: red;
+    margin: 100px 20px 20px 20px;
+}
+.twee{
+    background-color: yellow;
+    margin: 20px;
+}
+.drie{
+    background-color: green;
+    margin: 20px;
+}
+.vier{
+    background-color: blueviolet;
+    margin: 20px;
+}
+.vijf{
+    background-color: fuchsia;
+    margin: 20px;
+}

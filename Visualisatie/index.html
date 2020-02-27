@@ -71,6 +71,23 @@
     <div id="area3"></div>
 
     <script>
+        function getJsonList() {
+            var res = function () {
+                var result = null;
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    global: false,
+                    url: 'http://localhost:5000/all',
+                    success: function (data) {
+                        result = data;
+                    }
+                });
+                return result
+
+            }();
+            return res
+        }
         var width = window.innerWidth,
             height = 800
 
@@ -96,7 +113,22 @@
             .charge(-300)
             .size([(3 / 7) * width, height * 0.8]);
 
-        d3.json("graph.json", function(json) {
+        var file = getJsonList();
+        console.log(file);
+
+        d3.json("graph.json", function (json) {
+            /* if (error) throw error;
+             var nodeById = d3.map();
+
+             
+             json.nodes.forEach(function (node) {
+                 nodeById.set(node.ContactId, node);
+             });
+
+             graph.links.forEach(function (link) {
+                 link.source = nodeById.get(link.ContactId);
+                 link.target = nodeById.get(link.ContactId);
+             });*/
             force
                 .nodes(json.nodes)
                 .links(json.links)
@@ -106,7 +138,7 @@
                 .data(json.links)
                 .enter().append("line")
                 .attr("class", "link")
-                .style("stroke-width", function(d) {
+                .style("stroke-width", function (d) {
                     return Math.sqrt(d.weight);
                 });
 
@@ -125,7 +157,7 @@
                 .attr("dy", ".35em")
                 .attr("y", -25)
                 .style("text-anchor", "middle")
-                .text(function(d) {
+                .text(function (d) {
                     return d.name
                 });
 
@@ -137,26 +169,26 @@
                 showInfo(d);
             }
 
-            node.on("mouseover", function(d) {
+            node.on("mouseover", function (d) {
                 sendInfo(d);
             });
 
 
-            force.on("tick", function() {
-                link.attr("x1", function(d) {
+            force.on("tick", function () {
+                link.attr("x1", function (d) {
                         return d.source.x;
                     })
-                    .attr("y1", function(d) {
+                    .attr("y1", function (d) {
                         return d.source.y;
                     })
-                    .attr("x2", function(d) {
+                    .attr("x2", function (d) {
                         return d.target.x;
                     })
-                    .attr("y2", function(d) {
+                    .attr("y2", function (d) {
                         return d.target.y;
                     });
 
-                node.attr("transform", function(d) {
+                node.attr("transform", function (d) {
                     return "translate(" + d.x + "," + d.y + ")";
                 });
             });
@@ -183,17 +215,25 @@
                 .style("fill", "white")
                 .style("stroke", "black")
 
-            var text1 = d3.select('.info').append("text")
-                .attr("dy", "1em")
-                .attr("dx", 5)
-                .attr("text-anchor", "start")
-                .text("Contact name: " + d.name)
+            var i = 1;
+            d3.keys(d).forEach(printText)
 
-            var text2 = d3.select('.info').append("text")
+            function printText(key) {
+                //if (key != ("index") && key !=("weight") && key != ("x") && key != ("y") && key != ("px") && key != ("py") && key != ("fixed")) {
+                d3.select('.info').append("text")
+                    .attr("dy", i + "em")
+                    .attr("dx", 5)
+                    .attr("text-anchor", "start")
+                    .text(key + ": " + d[key])
+                i++;
+                //}
+            }
+
+            /*var text2 = d3.select('.info').append("text")
                 .attr("dy", "2em")
                 .attr("dx", 5)
                 .attr("text-anchor", "start")
-                .text("Placeholder: " + "placeholder text")
+                .text("Placeholder: " + "placeholder text")*/
 
 
             var infoBbox = d3.select('.info').node().getBBox()
@@ -222,42 +262,5 @@
             .attr("y", legendBox.y)
             .attr("width", (4 / 7) * width * 0.65)
             .attr("height", height * 0.24)
-
-        /*$.ajax({
-            dataType: "json",
-            url: 'http://localhost:5000/all',
-            data: 'relations',
-            success: function(data) {
-                var items = [];
-                $.each(data, function(key, val) {
-                    items.push("<li id='" + key + "'>" + val + "</li>");
-                });
-                $("<ul/>", {
-                    "class": "my-new-list",
-                    html: items.join("")
-                }).appendTo("body");
-            }
-        })*/
-        /*
-                var response = $.ajax({
-                    method: 'GET',
-                    url: 'http://localhost:5000/all',
-                    dataType: 'json', //change the datatype to 'jsonp' works in most cases
-                })
-                console.log(response)*/
-        /*$.getJSON("http://localhost:5000/all", function(data) {
-            var items = [];
-            $.each(data.relations, function(key, val) {
-                items.push("<li>" + key + " " + val.RelationId + "</li>");
-            });
-
-            $("<ul/>", {
-                "class": "my-new-list",
-                html: items.join("")
-            }).appendTo("body");
-        });*/
-        $.getJSON("http://localhost:5000/all", function(data) {
-            console.log(data);
-        });
     </script>
 </body>

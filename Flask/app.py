@@ -100,7 +100,7 @@ def index():
 
 @app.route ('/id', methods=['GET'])
 def allesid():
-    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(30).all()
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(2600).all()
     tem = parse_to_json(df,["id","name"])
     print(tem)
     temquotes = json.dumps(tem)
@@ -113,8 +113,19 @@ def allesid():
 @app.route ('/receivePersonID', methods=['GET', 'POST'])
 def personID():
     data = request.get_json() 
-    print(data[0]['contactId'])
     select_relations_by_id = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.LeftContactTitle).filter(Relations.LeftContactId == data[0]['contactId'] or Relations.RightContactId == data[0]['contactId']).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).all()  
+
+
+    if(select_relations_by_id) == [] :
+        select_single_node = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId == data[0]['contactId'] ).all()
+        temp = [param_as_dict(select_single_node[i],["ContactId", "ContactKind","ContactName", "ContactEmail", "ContactPhone", "CompanyName"]) for i in range(len(select_single_node))]
+        temp2 = []
+        single_json = {'links' :temp2 ,'nodes':temp}
+        print(single_json)
+
+        return jsonify(single_json)
+
+
     temp = [param_as_dict(select_relations_by_id[i],["RelationId","source", "target", "RelationTypeId", "LeftContactTitle"]) for i in range(len(select_relations_by_id))]
     json1 = json.dumps(temp, indent = 3)[1:-1]
     print(json1)
@@ -127,8 +138,10 @@ def personID():
     json2 = json.dumps(temp2, indent = 3)[1:-1]
     print(json2[1:-1])
     yayson = "{\"links\": [" + json1   + "] , \"nodes\": [" + json2      + "]}"
-    print(yayson)
-    return yayson
+    gayson = {'links':temp,'nodes':temp2}
+    print(jsonify(gayson))
+    #print(yayson)
+    return gayson
 
 
 @app.route ('/all', methods=['GET'])

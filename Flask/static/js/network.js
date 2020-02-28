@@ -78,15 +78,6 @@ var node = svg.selectAll(".node")
 
 node.append("circle")
     .attr("r", "17");
-/*
-link.append("text")
-    .attr("dx", 0)
-    .attr("dy", ".35em")
-    .attr("y", -25)
-    .style("text-anchor", "middle")
-    .text(function (l) {
-        return l.LeftcontactTitle
-    });*/
 
 node.append("text")
     .attr("dx", 0)

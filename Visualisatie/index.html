@@ -54,7 +54,6 @@
         float: left;
         clear: none;
     }
-
 </style>
 
 <body>
@@ -72,6 +71,23 @@
     <div id="area3"></div>
 
     <script>
+        function getJsonList() {
+            var res = function () {
+                var result = null;
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    global: false,
+                    url: 'http://localhost:5000/all',
+                    success: function (data) {
+                        result = data;
+                    }
+                });
+                return result
+
+            }();
+            return res
+        }
         var width = window.innerWidth,
             height = 800
 
@@ -97,7 +113,22 @@
             .charge(-300)
             .size([(3 / 7) * width, height * 0.8]);
 
-        d3.json("graph.json", function(json) {
+        var file = getJsonList();
+        console.log(file);
+
+        d3.json("graph.json", function (json) {
+            /* if (error) throw error;
+             var nodeById = d3.map();
+
+             
+             json.nodes.forEach(function (node) {
+                 nodeById.set(node.ContactId, node);
+             });
+
+             graph.links.forEach(function (link) {
+                 link.source = nodeById.get(link.ContactId);
+                 link.target = nodeById.get(link.ContactId);
+             });*/
             force
                 .nodes(json.nodes)
                 .links(json.links)
@@ -107,7 +138,7 @@
                 .data(json.links)
                 .enter().append("line")
                 .attr("class", "link")
-                .style("stroke-width", function(d) {
+                .style("stroke-width", function (d) {
                     return Math.sqrt(d.weight);
                 });
 
@@ -126,7 +157,7 @@
                 .attr("dy", ".35em")
                 .attr("y", -25)
                 .style("text-anchor", "middle")
-                .text(function(d) {
+                .text(function (d) {
                     return d.name
                 });
 
@@ -138,26 +169,26 @@
                 showInfo(d);
             }
 
-            node.on("mouseover", function(d) {
+            node.on("mouseover", function (d) {
                 sendInfo(d);
             });
 
 
-            force.on("tick", function() {
-                link.attr("x1", function(d) {
+            force.on("tick", function () {
+                link.attr("x1", function (d) {
                         return d.source.x;
                     })
-                    .attr("y1", function(d) {
+                    .attr("y1", function (d) {
                         return d.source.y;
                     })
-                    .attr("x2", function(d) {
+                    .attr("x2", function (d) {
                         return d.target.x;
                     })
-                    .attr("y2", function(d) {
+                    .attr("y2", function (d) {
                         return d.target.y;
                     });
 
-                node.attr("transform", function(d) {
+                node.attr("transform", function (d) {
                     return "translate(" + d.x + "," + d.y + ")";
                 });
             });
@@ -186,14 +217,15 @@
 
             var i = 1;
             d3.keys(d).forEach(printText)
+
             function printText(key) {
                 //if (key != ("index") && key !=("weight") && key != ("x") && key != ("y") && key != ("px") && key != ("py") && key != ("fixed")) {
-                    d3.select('.info').append("text")
-                        .attr("dy", i + "em")
-                        .attr("dx", 5)
-                        .attr("text-anchor", "start")
-                        .text(key + ": " + d[key])
-                    i++;
+                d3.select('.info').append("text")
+                    .attr("dy", i + "em")
+                    .attr("dx", 5)
+                    .attr("text-anchor", "start")
+                    .text(key + ": " + d[key])
+                i++;
                 //}
             }
 
@@ -230,129 +262,5 @@
             .attr("y", legendBox.y)
             .attr("width", (4 / 7) * width * 0.65)
             .attr("height", height * 0.24)
-
-        // example replacer function
-        function replacer(name, val) {
-            // convert RegExp to string
-            if (val && val.constructor === RegExp) {
-                return val.toString();
-            } else if (name === 'CreatedDateUtc') { // 
-                return undefined; // remove from result
-            } else if (name === 'HideFromCustomer') { // 
-                return undefined; // remove from result
-            } else if (name === 'ModifiedDateUtc') { // 
-                return undefined; // remove from result
-            } else if (name === 'classes') { // 
-                return undefined; // remove from result
-            } else if (name === 'prepare') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationcontacts') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationfieldvalues_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationtypes') { // 
-                return undefined; // remove from result
-            } else if (name === 'RelationValidationStatus') { // 
-                return undefined; // remove from result
-            } else if (name === 'ActivityKind') { // 
-                return undefined; // remove from result
-            } else if (name === 'CompanyForm') { // 
-                return undefined; // remove from result
-            } else if (name === 'ContactCapStatus') { // 
-                return undefined; // remove from result
-            } else if (name === 'ContactCapStatusMessage') { // 
-                return undefined; // remove from result
-            } else if (name === 'ContactKind') { // 
-                return undefined; // remove from result
-            } else if (name === 'Distance') { // 
-                return undefined; // remove from result
-            } else if (name === 'DocumentsLanguage') { // 
-                return undefined; // remove from result
-            } else if (name === 'ExpirationDate') { // 
-                return undefined; // remove from result
-            } else if (name === 'ForeignVatNumber') { // 
-                return undefined; // remove from result
-            } else if (name === 'ForeignVatNumberCountry') { // 
-                return undefined; // remove from result
-            } else if (name === 'VatNumberValidationStatus') { // 
-                return undefined; // remove from result
-            } else if (name === 'ForeignVatNumberValidationStatus') { // 
-                return undefined; // remove from result
-            } else if (name === 'ForeignVatNumbers') { // 
-                return undefined; // remove from result
-            } else if (name === 'IdentificationNumber') { // 
-                return undefined; // remove from result
-            } else if (name === 'IsNewCompany') { // 
-                return undefined; // remove from result
-            } else if (name === 'IsNonEuCompany') { // 
-                return undefined; // remove from result
-            } else if (name === 'IsPep') { // 
-                return undefined; // remove from result
-            } else if (name === 'LessOrMoreAmount') { // 
-                return undefined; // remove from result
-            } else if (name === 'NaceCode') { // 
-                return undefined; // remove from result
-            } else if (name === 'NickName') { // 
-                return undefined; // remove from result
-            } else if (name === 'NotLiableToVat') { // 
-                return undefined; // remove from result
-            } else if (name === 'Passport') { // 
-                return undefined; // remove from result
-            } else if (name === 'PepCount') { // 
-                return undefined; // remove from result
-            } else if (name === 'RecurrentOrOccasionalCustomer') { // 
-                return undefined; // remove from result
-            } else if (name === 'RegistrationNumber') { // 
-                return undefined; // remove from result
-            } else if (name === 'VatNumber') { // 
-                return undefined; // remove from result
-            } else if (name === 'VatNumberCountry') { // 
-                return undefined; // remove from result
-            } else if (name === 'classes') { // 
-                return undefined; // remove from result
-            } else if (name === 'clients') { // 
-                return undefined; // remove from result
-            } else if (name === 'contactcaps_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'contactinterests_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'contactsubscribers_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'customers') { // 
-                return undefined; // remove from result
-            } else if (name === 'prepare') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationcontactaddresses_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationcontacts') { // 
-                return undefined; // remove from result
-            } else if (name === 'relationcontacts_collection') { // 
-                return undefined; // remove from result
-            } else if (name === 'relations_collection') { // 
-                return undefined; // remove from result
-            } else {
-                return val; // return as is
-            }
-        };
-
-        $.getJSON("http://localhost:5000/all", function(json) {
-            var result = JSON.stringify(json, replacer, 4);
-            result = result.replace(/LeftContactId/gi, "source");
-            result = result.replace(/relations/gi, "links");
-            result = result.replace(/RightContactId/gi, "target");
-
-
-            console.log(result);
-        });
-        /*$.getJSON("http://localhost:5000/all", function(data) {
-            var myjson="";
-            data.relations.forEach(printValues)
-            function printValues(value){
-                myjson += "{source: " + value.LeftContactId + ", target: " + value.RightContactId + "},";
-            }
-            JSON.stringify(myjson);
-            console.log(myjson);
-        });*/
-
     </script>
 </body>

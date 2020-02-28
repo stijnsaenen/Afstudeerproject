@@ -1,23 +1,23 @@
 
 
 
-function getJson() {
-            var res = function () {
-                var result = null;
-                $.ajax({
-                    type: "GET",
-                    async: false,
-                    global: false,
-                    url: 'http://localhost:5000/all',
-                    success: function (data) {
-                        result = data;
-                    }
-                });
-                return result
-
-            }();
-            return res
-        }
+//function getJson() {
+//            var res = function () {
+//                var result = null;
+//                $.ajax({
+//                    type: "GET",
+//                    async: false,
+//                    global: false,
+//                    url: 'http://localhost:5000/all',
+//                    success: function (data) {
+//                        result = data;
+//                    }
+//                });
+//                return result
+//
+//            }();
+//            return res
+//        }
 
 var width = 1165,
     height = 600
@@ -46,8 +46,22 @@ var force = d3.layout.force()
     .charge(-300)
     .size([width, height]);
 
-var json = getJson();
-        console.log(json);
+//var json = getJson();
+//        console.log(json);
+
+    function removeElement(elementId) {
+        // Removes an element from the document
+        var element = document.getElementById(elementId);
+        element.parentNode.removeChild(element);
+    }
+
+
+function createD3(json){
+    svg.selectAll("*").remove();
+    //removeElement('svg');
+    
+    console.log(json)
+    console.log(json.nodes)
 
  var nodeById = d3.map();
 
@@ -78,6 +92,15 @@ var json = getJson();
         .attr("class", "node")
         .on("click", smaller)
         .call(force.drag);
+    
+    link.append("text")
+    .attr("dx", 0)
+    .attr("dy", ".35em")
+    .attr("y", -25)
+    .style("text-anchor", "middle")
+    .text(function (l) {
+        return l.LeftContactTitle
+    });
 
     node.append("circle")
         .attr("r", "17");
@@ -123,7 +146,7 @@ var json = getJson();
         });
     });
 
-
+}
 
 function smaller() {
     d3.select(".test").remove();

@@ -35,8 +35,8 @@ function sendIdToServer(id) {
         /* data: id, */
         data: JSON.stringify(hihi),
         contentType: "application/json",
-        success: function (data) {
-            console.log(id + " verzonden");
+        success: function (response) {
+            createD3(response);
         },
         error: function (data) {
             console.log(data);

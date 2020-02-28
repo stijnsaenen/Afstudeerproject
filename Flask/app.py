@@ -127,8 +127,10 @@ def personID():
     json2 = json.dumps(temp2, indent = 3)[1:-1]
     print(json2[1:-1])
     yayson = "{\"links\": [" + json1   + "] , \"nodes\": [" + json2      + "]}"
-    print(yayson)
-    return yayson
+    gayson = {'links':temp,'nodes':temp2}
+    print(jsonify(gayson))
+    #print(yayson)
+    return gayson
 
 
 @app.route ('/all', methods=['GET'])

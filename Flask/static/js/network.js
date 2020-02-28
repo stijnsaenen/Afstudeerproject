@@ -1,3 +1,24 @@
+
+
+
+function getJson() {
+            var res = function () {
+                var result = null;
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    global: false,
+                    url: 'http://localhost:5000/all',
+                    success: function (data) {
+                        result = data;
+                    }
+                });
+                return result
+
+            }();
+            return res
+        }
+
 var width = 1165,
     height = 600
 
@@ -25,7 +46,19 @@ var force = d3.layout.force()
     .charge(-300)
     .size([width, height]);
 
-d3.json("/static/graph.json", function (json) {
+var json = getJson();
+        console.log(json);
+
+ var nodeById = d3.map();
+
+            json.nodes.forEach(function(node) {
+                nodeById.set(node.ContactId, node);
+            });
+
+            json.links.forEach(function(link) {
+                link.source = nodeById.get(link.source);
+                link.target = nodeById.get(link.target);
+            });
     force
         .nodes(json.nodes)
         .links(json.links)
@@ -55,7 +88,7 @@ d3.json("/static/graph.json", function (json) {
         .attr("y", -25)
         .style("text-anchor", "middle")
         .text(function (d) {
-            return d.name
+            return d.ContactName
         });
 
     var tip;
@@ -90,7 +123,7 @@ d3.json("/static/graph.json", function (json) {
         });
     });
 
-});
+
 
 function smaller() {
     d3.select(".test").remove();

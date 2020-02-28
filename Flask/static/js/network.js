@@ -55,6 +55,7 @@ function removeElement(elementId) {
 
 function createD3(json) {
     svg.selectAll("*").remove();
+    d3.select('#area2').selectAll("*").remove();
     //removeElement('svg');
 
     console.log(json)
@@ -83,7 +84,7 @@ function createD3(json) {
     }
     var relationLinkColors = [];
     for (var i = 0; i < relationTypes.length; i++) {
-        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / relationTypes.length * (i + 1))).toString(16))
+        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (relationTypes.length+5) * (i+1))).toString(16))
     }
 
     var link = svg.selectAll(".link")
@@ -97,11 +98,12 @@ function createD3(json) {
         .style("stroke", function (l) {
             for (var i = 0; i < relationTypes.length; i++) {
                 if (l.RelationTypeId == relationTypes[i]) {
+                    console.log(relationLinkColors[i])
                     return relationLinkColors[i];
                 }
             }
         })
-
+    console.log(relationLinkColors);
     var node = svg.selectAll(".node")
         .data(json.nodes)
         .enter().append("g")

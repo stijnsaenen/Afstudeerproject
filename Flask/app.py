@@ -84,7 +84,7 @@ def after_request(response):
 
 @app.route ('/', methods=['GET'])
 def index():
-    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(30).all()
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).all()
     tem = parse_to_json(df,["id","name"])
     print(tem)
     temquotes = json.dumps(tem)

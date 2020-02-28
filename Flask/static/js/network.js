@@ -61,13 +61,31 @@ force
     .links(json.links)
     .start();
 
+var relationTypes = [];
+for (relationLink of json.links) {
+    if (!relationTypes.includes(relationLink.RelationTypeId)) {
+        relationTypes.push(relationLink.RelationTypeId)
+    }
+}
+var relationLinkColors = [];
+for (var i = 0; i < relationTypes.length; i++) {
+    relationLinkColors.push("#" + (Math.floor(0xFFFFFF / relationTypes.length * (i + 1))).toString(16))
+}
+
 var link = svg.selectAll(".link")
     .data(json.links)
     .enter().append("line")
     .attr("class", "link")
-    .style("stroke-width", function (d) {
+    .style("stroke-width", 5)/*function (d) {
         return Math.sqrt(d.weight);
-    });
+    })*/
+    .style("stroke", function (l) {
+        for (var i = 0; i < relationTypes.length; i++) {
+            if (l.RelationTypeId == relationTypes[i]) {
+                return relationLinkColors[i];
+            }
+        }
+    })
 
 var node = svg.selectAll(".node")
     .data(json.nodes)
@@ -77,7 +95,17 @@ var node = svg.selectAll(".node")
     .call(force.drag);
 
 node.append("circle")
-    .attr("r", "17");
+    .attr("r", "17")
+    .style("fill", function (d) {
+        if (d.ContactKind == 1) {
+            return "red";
+        }
+        if (d.ContactKind == 2) {
+            return "green";
+        } else {
+            return "blue";
+        }
+    });
 
 node.append("text")
     .attr("dx", 0)
@@ -87,10 +115,6 @@ node.append("text")
     .text(function (d) {
         return d.ContactName
     });
-
-var tip;
-var xSpacing = 25;
-var ySpacing = 40;
 
 function sendInfo(d) {
     showInfo(d);
@@ -119,8 +143,6 @@ force.on("tick", function () {
         return "translate(" + d.x + "," + d.y + ")";
     });
 });
-
-
 
 function smaller() {
     d3.select(".test").remove();

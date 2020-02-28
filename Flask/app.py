@@ -144,11 +144,11 @@ def all():
     #print(time.time() - a)
     #a = time.time()
     #myString = temp[1:-1]
-    df = db.session.query(RelationContacts.ContactId, RelationContacts.CustomerId, RelationContacts.ClientId, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone , RelationContacts.CompanyName, RelationContacts.ErpCode, RelationContacts.VatNumber, RelationContacts.FirstName, RelationContacts.LastName, RelationContacts.Discriminator, RelationContacts.MobilePhone , RelationContacts.Website, RelationContacts.Location, RelationContacts.SeniorAssistantEmail, RelationContacts.AssistantEmail, RelationContacts.Language).all()
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.CustomerId, RelationContacts.ClientId, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone , RelationContacts.CompanyName, RelationContacts.ErpCode, RelationContacts.VatNumber, RelationContacts.FirstName, RelationContacts.LastName, RelationContacts.Discriminator, RelationContacts.MobilePhone , RelationContacts.Website, RelationContacts.Location, RelationContacts.SeniorAssistantEmail, RelationContacts.AssistantEmail, RelationContacts.Language, RelationContacts.ContactKind).all()
     #print(time.time() - a)
     #a = time.time() 
     #temp2  = [obj_as_dict(df[i]) for i in range(len(df))]
-    temp2 = [param_as_dict(df[i],["ContactId" ,"CustomerId" ,"ClientId" ,"ContactName" ,"ContactEmail" ,"ContactPhone" ,"CompanyName" ,"ErpCode" ,"VatNumber" ,"FirstName" ,"LastName" ,"Discriminator" ,"MobilePhone" ,"Website" ,"Location" ,"SeniorAssistantEmail" ,"AssistantEmail" ,"Language"]) for i in range(len(df))]
+    temp2 = [param_as_dict(df[i],["ContactId" ,"CustomerId" ,"ClientId" ,"ContactName" ,"ContactEmail" ,"ContactPhone" ,"CompanyName" ,"ErpCode" ,"VatNumber" ,"FirstName" ,"LastName" ,"Discriminator" ,"MobilePhone" ,"Website" ,"Location" ,"SeniorAssistantEmail" ,"AssistantEmail" ,"Language", "ContactKind"]) for i in range(len(df))]
     #print(time.time() - a)
     #a = time.time()
     #print(temp2)

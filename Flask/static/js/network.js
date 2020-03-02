@@ -145,7 +145,10 @@ function createD3(json) {
         if (d.sameMiddleLink) {
             arc = 0;
         }
-        return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
+        else{
+            arc = dr;
+        }
+        return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
     }
 
     var infoArea;

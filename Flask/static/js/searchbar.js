@@ -1,6 +1,12 @@
 const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
 
+var searchOptionName = false;
+var searchOptionEmail = false;
+var searchOptionPhone = false;
+var searchOptionCompanyName = false;
+
+
 //search json en filter
 const JSONlist = getJsonList();
 
@@ -27,7 +33,10 @@ function getJsonList() {
 
 function sendIdToServer(id) {
     console.log(id);
-    var hihi = [{ "contactId": id }];
+    var hihi = [{
+        "contactId": id
+    }];
+
 
     $.ajax({
         type: "POST",
@@ -52,7 +61,10 @@ const searchStates = async searchText => {
     Object.keys(persons).forEach(function (key) {
         var pJson = {
             "id": persons[key].id,
-            "name": persons[key].name
+            "name": persons[key].name,
+            "email": persons[key].email,
+            "phone": persons[key].phone,
+            "companyname": persons[key].companyname
         };
         juisteLijstMetAlleNamenEnIds.push(pJson)
     })
@@ -61,10 +73,35 @@ const searchStates = async searchText => {
     let matches = juisteLijstMetAlleNamenEnIds.filter(person => {
         const regex = new RegExp(`^${searchText}`, 'gi');
 
-        return person.name.match(regex);
+        if (searchOptionName) {
+            if (person.name == null) {
+                console.log("error")
+            } else if (person.name.match(regex)) {
+                return person.name;
+            }
+        } else if (searchOptionEmail) {
+            if (person.email == null) {
+                console.log("error")
+            } else if (person.email.match(regex)) {
+                return person.email;
+            }
+        } else if (searchOptionPhone) {
+            //TODO----------------------------------------------------------------------------------------------------------------------------------------------
+            if (person.phone == null) {
+                console.log("error")
+            } else if (person.phone.match(regexnum)) {
+                return person.name;
+            }
+        } else if (searchOptionCompanyName) {
+            if (person.companyname == null) {
+                console.log("error")
+            } else if (person.companyname.match(regex)) {
+                return person.name;
+            }
+        }
     });
 
-    //console.log(matches); //debug
+    console.log(matches); //debug
 
     if (searchText.length === 0 || matches.length === 0) {
         matches = [];
@@ -90,3 +127,103 @@ const outputHtml = matches => {
 }
 search.addEventListener('input', () => searchStates(search.value));
 
+
+
+
+
+
+// verander opties van zoeken, veranderd gzn de booleans
+function changeSearchOptionName() {
+    searchOptionName = true;
+    searchOptionEmail = false;
+    searchOptionPhone = false;
+    searchOptionCompanyName = false;
+    matches = [];
+}
+
+function changeSearchOptionEmail() {
+    searchOptionName = false;
+    searchOptionEmail = true;
+    searchOptionPhone = false;
+    searchOptionCompanyName = false;
+    matches = [];
+}
+
+function changeSearchOptionPhone() {
+    searchOptionName = false;
+    searchOptionEmail = false;
+    searchOptionPhone = true;
+    searchOptionCompanyName = false;
+    matches = [];
+}
+
+function changeSearchOptionCompanyName() {
+    searchOptionName = false;
+    searchOptionEmail = false;
+    searchOptionPhone = false;
+    searchOptionCompanyName = true;
+    matches = [];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* if (person.name == null || person.email == null || person.phone == null || person.companyname == null) {
+                console.log("error")
+            } else {
+                if (searchOptionName) {
+                    if (person.name.match(regex)) {
+                        return person.name;
+                    }
+                }else if(searchOptionEmail){
+                    if (person.email.match(regex)) {
+                        return person.email;
+                    }
+                }else if(searchOptionPhone){
+                    //TODO----------------------------------------------------------------------------------------------------------------------------------------------
+                    if (person.phone.match(regex)) {
+                        return person.name;
+                    }
+                }else if(searchOptionCompanyName){
+                    if (person.companyname.match(regex)) {
+                        return person.name;
+                    }
+                }
+            } */

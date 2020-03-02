@@ -30,41 +30,41 @@ function createD3(json) {
     });
 
     var links = json.links;
-
-    _.each(links, function (link) {
-        // find other links with same target+source or source+target
-        var same = _.where(links, {
-            'source': link.source,
-            'target': link.target
+    if (links.length > 0) {
+        _.each(links, function (link) {
+            // find other links with same target+source or source+target
+            var same = _.where(links, {
+                'source': link.source,
+                'target': link.target
+            });
+            var sameAlt = _.where(links, {
+                'source': link.target,
+                'target': link.source
+            });
+            var sameAll = same.concat(sameAlt);
+            _.each(sameAll, function (s, i) {
+                s.sameIndex = (i + 1);
+                s.sameTotal = sameAll.length;
+                s.sameTotalHalf = (s.sameTotal / 2);
+                s.sameUneven = ((s.sameTotal % 2) !== 0);
+                s.sameMiddleLink = ((s.sameUneven === true) && (Math.ceil(s.sameTotalHalf) === s.sameIndex));
+                s.sameLowerHalf = (s.sameIndex <= s.sameTotalHalf);
+                s.sameArcDirection = s.sameLowerHalf ? 0 : 1;
+                s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
+            });
         });
-        var sameAlt = _.where(links, {
-            'source': link.target,
-            'target': link.source
+
+        var maxSame = _.chain(links)
+            .sortBy(function (x) {
+                return x.sameTotal;
+            })
+            .last()
+            .value().sameTotal;
+
+        _.each(links, function (link) {
+            link.maxSameHalf = Math.floor(maxSame / 3);
         });
-        var sameAll = same.concat(sameAlt);
-        _.each(sameAll, function (s, i) {
-            s.sameIndex = (i + 1);
-            s.sameTotal = sameAll.length;
-            s.sameTotalHalf = (s.sameTotal / 2);
-            s.sameUneven = ((s.sameTotal % 2) !== 0);
-            s.sameMiddleLink = ((s.sameUneven === true) && (Math.ceil(s.sameTotalHalf) === s.sameIndex));
-            s.sameLowerHalf = (s.sameIndex <= s.sameTotalHalf);
-            s.sameArcDirection = s.sameLowerHalf ? 0 : 1;
-            s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
-        });
-    });
-
-    var maxSame = _.chain(links)
-        .sortBy(function (x) {
-            return x.sameTotal;
-        })
-        .last()
-        .value().sameTotal;
-
-    _.each(links, function (link) {
-        link.maxSameHalf = Math.floor(maxSame / 3);
-    });
-
+    }
     var force = d3.layout.force()
         .nodes(json.nodes)
         .links(links)
@@ -74,15 +74,16 @@ function createD3(json) {
         .on('tick', tick)
         .start();
 
-    var path = svg.selectAll("path")
-        .data(force.links())
-        .enter().append("g")
-        .attr("class", "link")
-        .append("path")
-        .style("stroke", function (d) {
-            return d3.scale.category20().range()[d.sameIndex - 1];
-        })
-
+    if (links.length > 0) {
+        var path = svg.selectAll("path")
+            .data(force.links())
+            .enter().append("g")
+            .attr("class", "link")
+            .append("path")
+            .style("stroke", function (d) {
+                return d3.scale.category20().range()[d.sameIndex - 1];
+            })
+    }
     var node = svg.selectAll(".node")
         .data(force.nodes())
         .enter().append("g")
@@ -129,7 +130,9 @@ function createD3(json) {
         node.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
-        path.attr("d", linkArc);
+        if (links.length > 0) {
+            path.attr("d", linkArc);
+        }
     };
 
     function linkArc(d) {

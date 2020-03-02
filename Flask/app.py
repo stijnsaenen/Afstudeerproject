@@ -100,8 +100,8 @@ def index():
 
 @app.route ('/id', methods=['GET'])
 def allesid():
-    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName).limit(2600).all()
-    tem = parse_to_json(df,["id","name"])
+    df = db.session.query(RelationContacts.ContactId, RelationContacts.ContactName,RelationContacts.ContactEmail,RelationContacts.ContactPhone,RelationContacts.CompanyName).all()
+    tem = parse_to_json(df,["id","name","email","phone","companyname"])
     print(tem)
     temquotes = json.dumps(tem)
     print(type(temquotes))

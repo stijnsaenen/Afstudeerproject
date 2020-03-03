@@ -93,6 +93,32 @@ function createD3(json) {
 
     node.append("circle")
         .attr("r", "17")
+        .on("click", function(d){
+        console.log("node clicked", d , arguments, this);
+        console.log(d['CompanyName']);
+        var contactName = d['ContactId'];
+        var tempo= 
+            
+        JSON.stringify({ contactId: contactName});         
+        console.log(tempo);
+        
+        
+        $.ajax({
+        type: "POST",
+        url: '/receivePersonID',
+        /* data: id, */
+        data: tempo,
+        contentType: "application/json",
+        success: function (response) {
+            console.log('hahahahahaha');
+            console.log(typeof(tempo));
+            createD3(response);
+        },
+        error: function (data) {
+            console.log(data);
+    
+        }
+    })})
         .style("fill", function (d) {
             if (d.ContactKind == 1) {
                 return "red";

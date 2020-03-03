@@ -18,7 +18,7 @@ from sqlalchemy import inspect
 from sqlalchemy.ext.declarative import DeclarativeMeta
 app = Flask(__name__)
 
-paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER=vhuat.database.windows.net;PORT=1433;DATABASE=vhportal-prod-copy-2020-2-21-16-13;UID=AzureDB_admin;PWD=P@55w0rd')
+paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER=vhuat.database.windows.net;PORT=1433;DATABASE=ucllDB;UID=AzureDB_admin;PWD=P@55w0rd')
 
 
 def obj_as_dict(obj):

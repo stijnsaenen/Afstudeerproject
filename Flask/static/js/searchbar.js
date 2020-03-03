@@ -1,7 +1,7 @@
 const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
 
-var searchOptionName = false;
+var searchOptionName = true;
 var searchOptionEmail = false;
 var searchOptionPhone = false;
 var searchOptionCompanyName = false;
@@ -117,7 +117,7 @@ const outputHtml = matches => {
     if (matches.length > 0) {
         const html = matches.map(match => `
 
-        <a class="dropdown-item" onclick="sendIdToServer(${match.id})">${match.name}</a>
+        <a class="dropdown-item" onclick="sendIdToServer(${match.id});document.getElementById('search').value = '${match.name}'">${match.name}</a>
     
         `).join('');
 

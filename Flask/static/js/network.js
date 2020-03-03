@@ -7,10 +7,6 @@ var IndivNodeColor = "Red";
 var BussiNodeColor = "Green";
 var FamilNodeColor = "Blue";
 
-var relationTypes = [];
-var relationLinkColors = [];
-var nodeTypes = [];
-
 var svg = d3.select("#area1").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -25,6 +21,11 @@ function removeElement(elementId) {
 function createD3(json) {
     svg.selectAll("*").remove();
     d3.select('#area2').selectAll("*").remove();
+    d3.select('#area3').selectAll("*").remove();
+    
+    var relationTypes = [];
+    var relationLinkColors = [];
+    var nodeTypes = [];
 
     var nodeById = d3.map();
 
@@ -77,8 +78,8 @@ function createD3(json) {
         .nodes(json.nodes)
         .links(links)
         .size([width, height])
-        .linkDistance(300)
-        .charge(-1000)
+        .linkDistance(200)
+        .charge(-2000)
         .on('tick', tick)
         .start();
 
@@ -95,10 +96,10 @@ function createD3(json) {
         }
         console.log(nodeTypes)
     }
-    
+
 
     for (var i = 0; i < relationTypes.length; i++) {
-        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (((relationTypes.length) * 2)) * (i + 1)).toString(16)))
+        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (((relationTypes.length) * 3)) * (i + 1)).toString(16)))
     }
 
     if (links.length > 0) {
@@ -157,6 +158,9 @@ function createD3(json) {
     function smaller() {
         d3.select(".test").remove();
         d3.select(".info").remove();
+        d3.select(".legend").remove();
+        nodeTypes = []
+
     }
 
     function tick(d) {

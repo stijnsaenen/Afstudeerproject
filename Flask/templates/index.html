@@ -3,7 +3,8 @@
 <link rel="icon" type="image/png" href="/static/logohead.png">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<script src="https://d3js.org/d3.v2.min.js?2.9.3"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
 <link rel="icon" href="/static/img/mdb-favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
@@ -25,8 +26,7 @@
 
 
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,13 +79,10 @@
                     <div class="col vier">
                         <h4>Enter a name and press search</h4>
                         <div class="active-black-3 active-black-4 mb-4">
-                            <input class="form-control" id="search" type="text" placeholder="Search"
-                                aria-label="Search">
+                            <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
                         </div>
                         <div class="dropdown">
-                            <button class="btn peach-gradient lighten-3 py-4 mb-4  z-depth-1 dropdown-toggle"
-                                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <button class="btn peach-gradient lighten-3 py-4 mb-4  z-depth-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Search
                             </button>
                             <div class="dropdown-menu" id="match-list" aria-labelledby="dropdownMenuButton">

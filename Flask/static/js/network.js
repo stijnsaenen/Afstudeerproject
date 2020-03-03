@@ -1,50 +1,11 @@
-//function getJson() {
-//            var res = function () {
-//                var result = null;
-//                $.ajax({
-//                    type: "GET",
-//                    async: false,
-//                    global: false,
-//                    url: 'http://localhost:5000/all',
-//                    success: function (data) {
-//                        result = data;
-//                    }
-//                });
-//                return result
-//
-//            }();
-//            return res
-//        }
-
 var width = 1165,
     height = 600
 
 // Network window
 
 var svg = d3.select("#area1").append("svg")
-    /* .attr("width", (3 / 7) * width)
-    .attr("height", height * 0.8); */
     .attr("width", width)
     .attr("height", height);
-
-
-var borderPath = svg.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", width)
-    .attr("height", height)
-    /* .style("stroke", "black") */
-    .style("fill", "white")
-/* .style("stroke-width", 1) */
-
-var force = d3.layout.force()
-    .gravity(.07)
-    .distance(100)
-    .charge(-300)
-    .size([width, height]);
-
-//var json = getJson();
-//        console.log(json);
 
 function removeElement(elementId) {
     // Removes an element from the document
@@ -56,10 +17,6 @@ function removeElement(elementId) {
 function createD3(json) {
     svg.selectAll("*").remove();
     d3.select('#area2').selectAll("*").remove();
-    //removeElement('svg');
-
-    console.log(json)
-    console.log(json.nodes)
 
     var nodeById = d3.map();
 
@@ -71,54 +28,68 @@ function createD3(json) {
         link.source = nodeById.get(link.source);
         link.target = nodeById.get(link.target);
     });
-    force
+
+    var links = json.links;
+    if (links.length > 0) {
+        _.each(links, function (link) {
+            // find other links with same target+source or source+target
+            var same = _.where(links, {
+                'source': link.source,
+                'target': link.target
+            });
+            var sameAlt = _.where(links, {
+                'source': link.target,
+                'target': link.source
+            });
+            var sameAll = same.concat(sameAlt);
+            _.each(sameAll, function (s, i) {
+                s.sameIndex = (i + 1);
+                s.sameTotal = sameAll.length;
+                s.sameTotalHalf = (s.sameTotal / 2);
+                s.sameUneven = ((s.sameTotal % 2) !== 0);
+                s.sameMiddleLink = ((s.sameUneven === true) && (Math.ceil(s.sameTotalHalf) === s.sameIndex));
+                s.sameLowerHalf = (s.sameIndex <= s.sameTotalHalf);
+                s.sameArcDirection = s.sameLowerHalf ? 0 : 1;
+                s.sameIndexCorrected = s.sameLowerHalf ? s.sameIndex : (s.sameIndex - Math.ceil(s.sameTotalHalf));
+            });
+        });
+
+        var maxSame = _.chain(links)
+            .sortBy(function (x) {
+                return x.sameTotal;
+            })
+            .last()
+            .value().sameTotal;
+
+        _.each(links, function (link) {
+            link.maxSameHalf = Math.floor(maxSame / 3);
+        });
+    }
+    var force = d3.layout.force()
         .nodes(json.nodes)
-        .links(json.links)
+        .links(links)
+        .size([width, height])
+        .linkDistance(300)
+        .charge(-600)
+        .on('tick', tick)
         .start();
 
-    var relationTypes = [];
-    for (relationLink of json.links) {
-        if (!relationTypes.includes(relationLink.RelationTypeId)) {
-            relationTypes.push(relationLink.RelationTypeId)
-        }
+    if (links.length > 0) {
+        var path = svg.selectAll("path")
+            .data(force.links())
+            .enter().append("g")
+            .attr("class", "link")
+            .append("path")
+            .style("stroke", function (d) {
+                return d3.scale.category20().range()[d.sameIndex - 1];
+            })
     }
-    var relationLinkColors = [];
-    for (var i = 0; i < relationTypes.length; i++) {
-        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (relationTypes.length+5) * (i+1))).toString(16))
-    }
-
-    var link = svg.selectAll(".link")
-        .data(json.links)
-        .enter().append("line")
-        .attr("class", "link")
-        .style("stroke-width", 5)
-        /*function (d) {
-                return Math.sqrt(d.weight);
-            })*/
-        .style("stroke", function (l) {
-            for (var i = 0; i < relationTypes.length; i++) {
-                if (l.RelationTypeId == relationTypes[i]) {
-                    console.log(relationLinkColors[i])
-                    return relationLinkColors[i];
-                }
-            }
-        })
-    console.log(relationLinkColors);
     var node = svg.selectAll(".node")
-        .data(json.nodes)
+        .data(force.nodes())
         .enter().append("g")
         .attr("class", "node")
-        .on("click", smaller)
+        //.on("click", smaller)
         .call(force.drag);
-
-    link.append("text")
-        .attr("dx", 0)
-        .attr("dy", ".35em")
-        .attr("y", -25)
-        .style("text-anchor", "middle")
-        .text(function (l) {
-            return l.LeftContactTitle
-        });
 
     node.append("circle")
         .attr("r", "17")
@@ -150,29 +121,34 @@ function createD3(json) {
         sendInfo(d);
     });
 
-
-    force.on("tick", function () {
-        link.attr("x1", function (d) {
-                return d.source.x;
-            })
-            .attr("y1", function (d) {
-                return d.source.y;
-            })
-            .attr("x2", function (d) {
-                return d.target.x;
-            })
-            .attr("y2", function (d) {
-                return d.target.y;
-            });
-
-        node.attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });
-    });
-
     function smaller() {
         d3.select(".test").remove();
         d3.select(".info").remove();
+    }
+
+    function tick(d) {
+        node.attr("transform", function (d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        });
+        if (links.length > 0) {
+            path.attr("d", linkArc);
+        }
+    };
+
+    function linkArc(d) {
+        var dx = (d.target.x - d.source.x),
+            dy = (d.target.y - d.source.y),
+            dr = Math.sqrt(dx * dx + dy * dy),
+            unevenCorrection = (d.sameUneven ? 0 : 0.5),
+            arc = ((dr * d.maxSameHalf) / (d.sameIndexCorrected - unevenCorrection));
+
+        if (d.sameMiddleLink) {
+            arc = 0;
+        }
+        else{
+            arc = dr;
+        }
+        return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
     }
 
     var infoArea;
@@ -198,5 +174,5 @@ function createD3(json) {
             }
         }
         var infoBbox = d3.select('.info').node().getBBox()
-    };
-}
+    }
+};

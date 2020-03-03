@@ -1,5 +1,6 @@
-.link {
-    stroke: #aaa;
+path {
+    fill: none;
+    stroke-width: 3;
 }
 
 .node text {

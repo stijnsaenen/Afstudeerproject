@@ -3,20 +3,23 @@ var width = 1165,
 
 // Network window
 
+var IndivNodeColor = "Red";
+var BussiNodeColor = "Green";
+var FamilNodeColor = "Blue";
+
 var svg = d3.select("#area1").append("svg")
     .attr("width", width)
     .attr("height", height);
-
-function removeElement(elementId) {
-    // Removes an element from the document
-    var element = document.getElementById(elementId);
-    element.parentNode.removeChild(element);
-}
 
 
 function createD3(json) {
     svg.selectAll("*").remove();
     d3.select('#area2').selectAll("*").remove();
+    d3.select('#area3').selectAll("*").remove();
+    
+    var relationTypes = [];
+    var relationLinkColors = [];
+    var nodeTypes = [];
 
     var nodeById = d3.map();
 
@@ -69,10 +72,29 @@ function createD3(json) {
         .nodes(json.nodes)
         .links(links)
         .size([width, height])
-        .linkDistance(300)
-        .charge(-600)
+        .linkDistance(200)
+        .charge(-2000)
         .on('tick', tick)
         .start();
+
+    for (relationLink of json.links) {
+        if (!relationTypes.includes(relationLink.LeftContactTitle)) {
+            relationTypes.push(relationLink.LeftContactTitle)
+        }
+    }
+
+    for (nodeType of json.nodes) {
+        if (!nodeTypes.includes(nodeType.ContactKind)) {
+            console.log(nodeType.ContactKind)
+            nodeTypes.push(nodeType.ContactKind)
+        }
+        console.log(nodeTypes)
+    }
+
+
+    for (var i = 0; i < relationTypes.length; i++) {
+        relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (((relationTypes.length) * 3)) * (i + 1)).toString(16)))
+    }
 
     if (links.length > 0) {
         var path = svg.selectAll("path")
@@ -80,10 +102,16 @@ function createD3(json) {
             .enter().append("g")
             .attr("class", "link")
             .append("path")
-            .style("stroke", function (d) {
-                return d3.scale.category20().range()[d.sameIndex - 1];
+            .style("stroke", function (l) {
+                for (var i = 0; i < relationTypes.length; i++) {
+                    if (l.LeftContactTitle == relationTypes[i]) {
+                        console.log(relationLinkColors[i])
+                        return relationLinkColors[i];
+                    }
+                }
             })
     }
+
     var node = svg.selectAll(".node")
         .data(force.nodes())
         .enter().append("g")
@@ -93,14 +121,43 @@ function createD3(json) {
 
     node.append("circle")
         .attr("r", "17")
+        .on("click", function(d){
+        
+        if (d3.event.defaultPrevented) return;
+        
+        console.log("node clicked", d , arguments, this);
+        console.log(d['CompanyName']);
+        var contactName = d['ContactId'];
+        var tempo= 
+            
+        JSON.stringify({ contactId: contactName});         
+        console.log(tempo);
+        
+        
+        $.ajax({
+        type: "POST",
+        url: '/receivePersonID',
+        /* data: id, */
+        data: tempo,
+        contentType: "application/json",
+        success: function (response) {
+            console.log('hahahahahaha');
+            console.log(typeof(tempo));
+            createD3(response);
+        },
+        error: function (data) {
+            console.log(data);
+    
+        }
+    })})
         .style("fill", function (d) {
             if (d.ContactKind == 1) {
-                return "red";
+                return IndivNodeColor;
             }
             if (d.ContactKind == 2) {
-                return "green";
+                return BussiNodeColor;
             } else {
-                return "blue";
+                return FamilNodeColor;
             }
         });
 
@@ -124,6 +181,9 @@ function createD3(json) {
     function smaller() {
         d3.select(".test").remove();
         d3.select(".info").remove();
+        d3.select(".legend").remove();
+        nodeTypes = []
+
     }
 
     function tick(d) {
@@ -144,8 +204,7 @@ function createD3(json) {
 
         if (d.sameMiddleLink) {
             arc = 0;
-        }
-        else{
+        } else {
             arc = dr;
         }
         return "M" + d.source.x + "," + d.source.y + "A" + arc + "," + arc + " 0 0," + d.sameArcDirection + " " + d.target.x + "," + d.target.y;
@@ -173,6 +232,70 @@ function createD3(json) {
                 i++;
             }
         }
-        var infoBbox = d3.select('.info').node().getBBox()
+    };
+    var legendInfo = d3.select('#area3').append("svg")
+        .attr("width", (4 / 7) * width * 0.8)
+        .attr("height", height * 0.3)
+
+    var legendArea = legendInfo.append("g")
+        .attr('class', 'legend')
+
+    d3.select('.legend').append("text")
+        .attr("dy", 1 + "em")
+        .attr("dx", 5)
+        .attr("text-anchor", "start")
+        .text("Legende:");
+
+    d3.select('.legend').append("text")
+        .attr("dy", 3 + "em")
+        .attr("dx", 5)
+        .attr("text-anchor", "start")
+        .text("Nodes:");
+
+    var i;
+    nodeTypes.sort();
+    for (i = 1; i < nodeTypes.length + 1; i++) {
+        d3.select('.legend').append("text")
+            .attr("dy", 3 + i + "em")
+            .attr("dx", 5)
+            .attr("text-anchor", "start")
+            .text(function () {
+                if (nodeTypes[i - 1] == 1) {
+                    return "IndividualContact";
+                }
+                if (nodeTypes[i - 1] == 2) {
+                    return "BusinessContact";
+                }
+                if (nodeTypes[i - 1] == 3) {
+                    return "FamilyContact";
+                }
+            })
+            .style("fill", function () {
+                if (nodeTypes[i - 1] == 1) {
+                    return IndivNodeColor;
+                }
+                if (nodeTypes[i - 1] == 2) {
+                    return BussiNodeColor;
+                }
+                if (nodeTypes[i - 1] == 3) {
+                    return FamilNodeColor;
+                }
+            })
     }
-};
+    console.log(nodeTypes)
+
+    d3.select('.legend').append("text")
+        .attr("dy", 4 + i + "em")
+        .attr("dx", 5)
+        .attr("text-anchor", "start")
+        .text("Relations:")
+
+    for (var j = 0; j < relationTypes.length; j++) {
+        d3.select('.legend').append("text")
+            .attr("dy", j + 5 + i + "em")
+            .attr("dx", 5)
+            .attr("text-anchor", "start")
+            .text(relationTypes[j])
+            .style("fill", relationLinkColors[j])
+    }
+}

@@ -16,6 +16,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.ext.declarative import as_declarative
 from sqlalchemy import inspect
 from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy import or_
 app = Flask(__name__)
 
 paramsdb = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER=vhuat.database.windows.net;PORT=1433;DATABASE=ucllDB;UID=AzureDB_admin;PWD=P@55w0rd')
@@ -109,15 +110,15 @@ def allesid():
     #print(result)
     return temquotes
     
-
-@app.route ('/receivePersonID', methods=['GET', 'POST'])
-def personID():
-    data = request.get_json() 
-    select_relations_by_id = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.LeftContactTitle).filter(Relations.LeftContactId == data[0]['contactId'] or Relations.RightContactId == data[0]['contactId']).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).all()  
+saveson = "" 
 
 
+def initialQuery():
+    select_relations_by_id = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.LeftContactTitle).filter(Relations.LeftContactId == data['contactId'] or Relations.RightContactId == data['contactId']).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).all()  
+
+    ###SHOW SINGLE NODES###
     if(select_relations_by_id) == [] :
-        select_single_node = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId == data[0]['contactId'] ).all()
+        select_single_node = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId == data['contactId'] ).all()
         temp = [param_as_dict(select_single_node[i],["ContactId", "ContactKind","ContactName", "ContactEmail", "ContactPhone", "CompanyName"]) for i in range(len(select_single_node))]
         temp2 = []
         single_json = {'links' :temp2 ,'nodes':temp}
@@ -141,8 +142,79 @@ def personID():
     gayson = {'links':temp,'nodes':temp2}
     print(jsonify(gayson))
     #print(yayson)
+    saveson = gayson
+
+
     return gayson
 
+
+@app.route ('/receivePersonID', methods=['GET', 'POST'])
+def personID():
+    print("hahahahahaha")
+    print(request)
+
+    data = request.get_json()
+
+    if isinstance(data, list):
+        data = data[0]
+        #initialQuery()
+        select_relations_by_id = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.LeftContactTitle).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).filter(or_(Relations.LeftContactId == data['contactId'] , Relations.RightContactId == data['contactId'])).all()  
+        
+        for k in range(len(select_relations_by_id)):
+            print(select_relations_by_id[k])
+
+        #select_relations_by_id2 = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.RightContactTitle).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).filter(Relations.LeftContactId == data['contactId'] or Relations.RightContactId == data['contactId']).all()  
+
+
+
+        ###SHOW SINGLE NODES###
+        if(select_relations_by_id) == [] :
+            select_single_node = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId == data['contactId'] ).all()
+            temp = [param_as_dict(select_single_node[i],["ContactId", "ContactKind","ContactName", "ContactEmail", "ContactPhone", "CompanyName"]) for i in range(len(select_single_node))]
+            temp2 = []
+            single_json = {'links' :temp2 ,'nodes':temp}
+            print(single_json)
+            return jsonify(single_json)
+
+        temp = [param_as_dict(select_relations_by_id[i],["RelationId","source", "target", "RelationTypeId", "LeftContactTitle"]) for i in range(len(select_relations_by_id))]
+        json1 = json.dumps(temp, indent = 3)[1:-1]
+        print(json1)
+        nodeset = set()
+        for i in range(len(temp)):
+            nodeset.add(temp[i]['source'])
+            nodeset.add(temp[i]['target'])
+        select_relationcontacts_by_id = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId.in_(nodeset)).all()
+        temp2 = [param_as_dict(select_relationcontacts_by_id[i],["ContactId", "ContactKind","ContactName", "ContactEmail", "ContactPhone", "CompanyName"]) for i in range(len(select_relationcontacts_by_id))]
+        json2 = json.dumps(temp2, indent = 3)[1:-1]
+        print(json2[1:-1])
+        yayson = "{\"links\": [" + json1   + "] , \"nodes\": [" + json2      + "]}"
+        gayson = {'links':temp,'nodes':temp2}
+        print(jsonify(gayson))
+        #print(yayson)
+        saveson = gayson
+        return gayson
+
+    else:
+        select_relations_by_id = db.session.query(Relations.RelationId, Relations.LeftContactId, Relations.RightContactId, Relations.RelationTypeId, RelationTypes.LeftContactTitle).filter(or_(Relations.LeftContactId == data['contactId'] , Relations.RightContactId == data['contactId'])).filter(Relations.RelationTypeId == RelationTypes.RelationTypeId).all()
+        if select_relations_by_id == []:
+            return saveson
+        temp = [param_as_dict(select_relations_by_id[i],["RelationId","source", "target", "RelationTypeId", "LeftContactTitle"]) for i in range(len(select_relations_by_id))]
+        json1 = json.dumps(temp, indent = 3)[1:-1]
+        print(json1)
+        nodeset = set()
+        for i in range(len(temp)):
+            nodeset.add(temp[i]['source'])
+            nodeset.add(temp[i]['target'])
+        select_relationcontacts_by_id = db.session.query(RelationContacts.ContactId, RelationContacts.ContactKind, RelationContacts.ContactName, RelationContacts.ContactEmail, RelationContacts.ContactPhone, RelationContacts.CompanyName).filter(RelationContacts.ContactId.in_(nodeset)).all()
+        temp2 = [param_as_dict(select_relationcontacts_by_id[i],["ContactId", "ContactKind","ContactName", "ContactEmail", "ContactPhone", "CompanyName"]) for i in range(len(select_relationcontacts_by_id))]
+        json2 = json.dumps(temp2, indent = 3)[1:-1]
+        print(json2[1:-1])
+        yayson = "{\"links\": [" + json1   + "] , \"nodes\": [" + json2      + "]}"
+        gayson = {'links':temp,'nodes':temp2}
+        print(jsonify(gayson))
+        #print(yayson)
+        saveson = gayson
+        return gayson
 
 @app.route ('/all', methods=['GET'])
 def all():

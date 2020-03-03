@@ -11,12 +11,6 @@ var svg = d3.select("#area1").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-function removeElement(elementId) {
-    // Removes an element from the document
-    var element = document.getElementById(elementId);
-    element.parentNode.removeChild(element);
-}
-
 
 function createD3(json) {
     svg.selectAll("*").remove();
@@ -128,6 +122,9 @@ function createD3(json) {
     node.append("circle")
         .attr("r", "17")
         .on("click", function(d){
+        
+        if (d3.event.defaultPrevented) return;
+        
         console.log("node clicked", d , arguments, this);
         console.log(d['CompanyName']);
         var contactName = d['ContactId'];

@@ -16,6 +16,7 @@ function createD3(json) {
     svg.selectAll("*").remove();
     d3.select('#area2').selectAll("*").remove();
     d3.select('#area3').selectAll("*").remove();
+    d3.select('#area4').selectAll("*").remove();
 
     var relationTypes = [];
     var relationLinkColors = [];
@@ -185,6 +186,7 @@ function createD3(json) {
         d3.select(".test").remove();
         d3.select(".info").remove();
         d3.select(".legend").remove();
+        d3.select(".relationInfo").remove();
         nodeTypes = []
 
     }
@@ -235,16 +237,9 @@ function createD3(json) {
                 i++;
             }
         }
-        var k;
-        for (k = 1; k < links.length + 1; k++) {
-            d3.select('.info').append("text")
-                .attr("dy", i + k + "em")
-                .attr("dx", 5)
-                .attr("text-anchor", "start")
-                .text(links[k - 1].source.ContactName)
-        }
+        
     };
-    
+
     var legendInfo = d3.select('#area3').append("svg")
         .attr("width", (4 / 7) * width * 0.8)
         .attr("height", height * 0.3)
@@ -308,13 +303,6 @@ function createD3(json) {
     /* document.getElementById("legendebol").innerHTML += '<i class="fas fa-circle green-text mx-4" ></i>'; */
     console.log(nodeTypes)
 
-    d3.select('.legend').append("text")
-        .attr("dy", 4 + i + "em")
-        .attr("dx", 5)
-        .attr("text-anchor", "start")
-        .attr("class", "relationslegende")
-        .text("Relations:")
-
     for (var j = 0; j < relationTypes.length; j++) {
         d3.select('.legend').append("text")
             .attr("dy", j + 5 + i + "em")
@@ -323,4 +311,20 @@ function createD3(json) {
             .text(relationTypes[j])
             .style("fill", relationLinkColors[j])
     }
+
+    var relationInfo = d3.select('#area4').append("svg")
+        .attr("width", (4 / 7) * width * 0.8)
+        .attr("height", height * 0.3)
+    var relationArea = relationInfo.append("g")
+        .attr('class', 'relationInfo')
+    
+    var k;
+        for (k = 0; k < links.length; k++) {
+            d3.select('.relationInfo').append("text")
+                .attr("dy", k + "em")
+                .attr("dx", 5)
+                .attr("text-anchor", "start")
+                .text(links[k].source.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].target.ContactName)
+                .attr("font-size", "0.75rem")
+        }
 }

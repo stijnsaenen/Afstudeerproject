@@ -183,7 +183,6 @@ function createD3(json) {
     });
 
     function smaller() {
-        d3.select(".test").remove();
         d3.select(".info").remove();
         d3.select(".legend").remove();
         d3.select(".relationInfo").remove();

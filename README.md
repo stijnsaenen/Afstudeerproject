@@ -29,6 +29,7 @@ Hierna verschijnt er een pop-up venster waarin je de bepaalde firewall exception
 Als dit gelukt is, heb je toegang verkregen tot de databank en kan je gebruik maken van onze tool.
 
 ### ETL tool (Extraction - Transformation - Load)
+#### Dit deel is alleen toepasselijk als je de applicatie wilt uitbreiden! NIET nodig voor te applicatie te runnen
 We hebben een ETL tool gebruikt om verschillende data sources samen te brengen en te combineren in 1 tussenlaag. Dit is in ons geval de ucllDB databank op de databank server van 'Van Havermaet'. Als er in de toekomst nog data sources zouden bijkomen die moeten toegevoegd worden aan de tussenlaag, kan dit gedaan worden via een ETL tool. Wij hebben hiervoor Pentaho Data Integration Spoon gebruikt.
 In deze tutorial zullen we ook opnieuw Pentaho gebruiken. Voordat je dit programma opstart moet je ervoor zorgen dat je de juiste database driver hebt geinstalleerd. Deze vind je [hier](https://docs.microsoft.com/en-us/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15).
 
@@ -54,6 +55,8 @@ docker run -d -p 5000:5000 flask:latest
 docker ps
 ```
 4. Dan zou je iets zien zoals dit:
+```
 CONTAINER ID  IMAGE   COMMAND       CREATED   STATUS  PORTS
 9701  flask python app.py 3 min ago Up 4 min 0.0.0.0:5000
-Dit betekend dat de applicatie succesvol draait op de localhost:5000 (Als je hiernaar surft zou je dit moeten zien)
+```
+Dit betekend dat de applicatie succesvol draait op de localhost:5000 (Als je hiernaar surft zou je de applicatie moeten zien)

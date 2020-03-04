@@ -527,7 +527,7 @@
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>,</separator>
+    <separator>;</separator>
     <enclosure>"</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
@@ -538,46 +538,35 @@
     <encoding/>
     <fields>
       <field>
-        <name>ï»¿"null"</name>
-        <type>Boolean</type>
-        <format/>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>"UserName"</name>
+        <name>ï»¿UserName</name>
         <type>String</type>
         <format/>
         <currency>€</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>29</length>
+        <length>27</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>"GroupName"</name>
+        <name>GroupName</name>
         <type>String</type>
         <format/>
         <currency>€</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>37</length>
+        <length>35</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>"UserId"</name>
+        <name>UserId</name>
         <type>String</type>
         <format/>
         <currency>€</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>38</length>
+        <length>36</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -714,6 +703,52 @@
     </GUI>
   </step>
   <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>UserName</name>
+      </field>
+      <field>
+        <name>FirstName</name>
+      </field>
+      <field>
+        <name>LastName</name>
+      </field>
+      <field>
+        <name>EmailAddress</name>
+      </field>
+      <field>
+        <name>Password</name>
+      </field>
+      <field>
+        <name>UserId</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Table output</name>
     <type>TableOutput</type>
     <description/>
@@ -743,16 +778,16 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>"UserName"</column_name>
-        <stream_name>"UserName"</stream_name>
+        <column_name>UserName</column_name>
+        <stream_name>UserName</stream_name>
       </field>
       <field>
-        <column_name>"GroupName"</column_name>
-        <stream_name>"GroupName"</stream_name>
+        <column_name>GroupName</column_name>
+        <stream_name>GroupName</stream_name>
       </field>
       <field>
-        <column_name>"UserId"</column_name>
-        <stream_name>"UserId"</stream_name>
+        <column_name>UserId</column_name>
+        <stream_name>UserId</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -838,58 +873,6 @@
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>UserName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>FirstName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>LastName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>EmailAddress</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Password</name>
-        <rename/>
-      </field>
-      <field>
-        <name>UserId</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>160</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Select values 2</name>
     <type>SelectValues</type>
     <description/>
@@ -902,15 +885,15 @@
     </partitioning>
     <fields>
       <field>
-        <name>"UserName"</name>
+        <name>ï»¿UserName</name>
+        <rename>UserName</rename>
+      </field>
+      <field>
+        <name>GroupName</name>
         <rename/>
       </field>
       <field>
-        <name>"GroupName"</name>
-        <rename/>
-      </field>
-      <field>
-        <name>"UserId"</name>
+        <name>UserId</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>

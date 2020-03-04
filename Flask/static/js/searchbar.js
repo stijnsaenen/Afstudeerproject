@@ -1,9 +1,11 @@
 const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
+const searchOption = document.getElementById('dropdownMenu5');
+
 
 var searchOptionName = true;
 var searchOptionEmail = false;
-var searchOptionPhone = false;
+//var searchOptionPhone = false;
 var searchOptionCompanyName = false;
 
 
@@ -11,6 +13,7 @@ var searchOptionCompanyName = false;
 const JSONlist = getJsonList();
 
 function getJsonList() {
+
     var res = function () {
         var result = null;
         $.ajax({
@@ -63,7 +66,7 @@ const searchStates = async searchText => {
             "id": persons[key].id,
             "name": persons[key].name,
             "email": persons[key].email,
-            "phone": persons[key].phone,
+            //"phone": persons[key].phone,
             "companyname": persons[key].companyname
         };
         juisteLijstMetAlleNamenEnIds.push(pJson)
@@ -85,13 +88,13 @@ const searchStates = async searchText => {
             } else if (person.email.match(regex)) {
                 return person.email;
             }
-        } else if (searchOptionPhone) {
+        /*}  else if (searchOptionPhone) {
             //TODO----------------------------------------------------------------------------------------------------------------------------------------------
             if (person.phone == null) {
                 console.log("error")
             } else if (person.phone.match(regexnum)) {
                 return person.name;
-            }
+            } */
         } else if (searchOptionCompanyName) {
             if (person.companyname == null) {
                 console.log("error")
@@ -108,7 +111,7 @@ const searchStates = async searchText => {
         matchList.innerHTML = '';
     }
 
-    if (search.value.length > 0) {
+    if (search.value.length > 2) {
         outputHtml(matches);
     }
 }
@@ -117,13 +120,20 @@ const outputHtml = matches => {
     if (matches.length > 0) {
         const html = matches.map(match => `
 
-        <a class="dropdown-item" onclick="sendIdToServer(${match.id});document.getElementById('search').value = '${match.name}'">${match.name}</a>
+        <a class="list-group-item" onclick="
+                                            sendIdToServer(${match.id});
+                                            document.getElementById('search').value = '';
+                                            document.getElementById('match-list').innerHTML = '';
+                                            document.getElementById('displayrelatie').innerHTML = 'De relatie(s) van: <b>${match.name}</b>';
+
+                                            ">${match.name}</a>
     
         `).join('');
 
 
         matchList.innerHTML = html;
     }
+
 }
 search.addEventListener('input', () => searchStates(search.value));
 
@@ -133,97 +143,56 @@ search.addEventListener('input', () => searchStates(search.value));
 
 
 // verander opties van zoeken, veranderd gzn de booleans
+
+nameoption = document.getElementById('nameoption');
+mailoption = document.getElementById('mailoption');
+cnameoption = document.getElementById('cnameoption');
+
 function changeSearchOptionName() {
+    nameoption.classList.add("active");
+    mailoption.classList.remove("active");
+    cnameoption.classList.remove("active");
+
+
+    searchOption.innerHTML = 'Name';
     searchOptionName = true;
     searchOptionEmail = false;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = false;
     matches = [];
 }
 
 function changeSearchOptionEmail() {
+    mailoption.classList.add("active");
+    nameoption.classList.remove("active");
+    cnameoption.classList.remove("active");
+
+    searchOption.innerHTML = 'E-Mail';
     searchOptionName = false;
     searchOptionEmail = true;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = false;
     matches = [];
 }
 
-function changeSearchOptionPhone() {
+/* function changeSearchOptionPhone() {
+
     searchOptionName = false;
     searchOptionEmail = false;
     searchOptionPhone = true;
     searchOptionCompanyName = false;
     matches = [];
-}
+} */
 
 function changeSearchOptionCompanyName() {
+    nameoption.classList.remove("active");
+    mailoption.classList.remove("active");
+    cnameoption.classList.add("active");
+
+    searchOption.innerHTML = 'Company name';
     searchOptionName = false;
     searchOptionEmail = false;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = true;
     matches = [];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* if (person.name == null || person.email == null || person.phone == null || person.companyname == null) {
-                console.log("error")
-            } else {
-                if (searchOptionName) {
-                    if (person.name.match(regex)) {
-                        return person.name;
-                    }
-                }else if(searchOptionEmail){
-                    if (person.email.match(regex)) {
-                        return person.email;
-                    }
-                }else if(searchOptionPhone){
-                    //TODO----------------------------------------------------------------------------------------------------------------------------------------------
-                    if (person.phone.match(regex)) {
-                        return person.name;
-                    }
-                }else if(searchOptionCompanyName){
-                    if (person.companyname.match(regex)) {
-                        return person.name;
-                    }
-                }
-            } */

@@ -3,9 +3,9 @@ var width = 1165,
 
 // Network window
 
-var IndivNodeColor = "Red";
-var BussiNodeColor = "Green";
-var FamilNodeColor = "Blue";
+var IndivNodeColor = "Brown";
+var BussiNodeColor = "Orange";
+var FamilNodeColor = "Red";
 
 var svg = d3.select("#area1").append("svg")
     .attr("width", width)
@@ -16,7 +16,8 @@ function createD3(json) {
     svg.selectAll("*").remove();
     d3.select('#area2').selectAll("*").remove();
     d3.select('#area3').selectAll("*").remove();
-    
+    d3.select('#area4').selectAll("*").remove();
+
     var relationTypes = [];
     var relationLinkColors = [];
     var nodeTypes = [];
@@ -121,35 +122,38 @@ function createD3(json) {
 
     node.append("circle")
         .attr("r", "17")
-        .on("click", function(d){
-        
-        if (d3.event.defaultPrevented) return;
-        
-        console.log("node clicked", d , arguments, this);
-        console.log(d['CompanyName']);
-        var contactName = d['ContactId'];
-        var tempo= 
-            
-        JSON.stringify({ contactId: contactName});         
-        console.log(tempo);
-        
-        
-        $.ajax({
-        type: "POST",
-        url: '/receivePersonID',
-        /* data: id, */
-        data: tempo,
-        contentType: "application/json",
-        success: function (response) {
-            console.log('hahahahahaha');
-            console.log(typeof(tempo));
-            createD3(response);
-        },
-        error: function (data) {
-            console.log(data);
-    
-        }
-    })})
+        .on("click", function (d) {
+
+            if (d3.event.defaultPrevented) return;
+
+            console.log("node clicked", d, arguments, this);
+            console.log(d['CompanyName']);
+            var contactName = d['ContactId'];
+            var tempo =
+
+                JSON.stringify({
+                    contactId: contactName
+                });
+            console.log(tempo);
+
+
+            $.ajax({
+                type: "POST",
+                url: '/receivePersonID',
+                /* data: id, */
+                data: tempo,
+                contentType: "application/json",
+                success: function (response) {
+                    console.log('hahahahahaha');
+                    console.log(typeof (tempo));
+                    createD3(response);
+                },
+                error: function (data) {
+                    console.log(data);
+
+                }
+            })
+        })
         .style("fill", function (d) {
             if (d.ContactKind == 1) {
                 return IndivNodeColor;
@@ -182,6 +186,7 @@ function createD3(json) {
         d3.select(".test").remove();
         d3.select(".info").remove();
         d3.select(".legend").remove();
+        d3.select(".relationInfo").remove();
         nodeTypes = []
 
     }
@@ -232,7 +237,9 @@ function createD3(json) {
                 i++;
             }
         }
+        
     };
+
     var legendInfo = d3.select('#area3').append("svg")
         .attr("width", (4 / 7) * width * 0.8)
         .attr("height", height * 0.3)
@@ -243,6 +250,7 @@ function createD3(json) {
     d3.select('.legend').append("text")
         .attr("dy", 1 + "em")
         .attr("dx", 5)
+        .attr("class", "legendetitel")
         .attr("text-anchor", "start")
         .text("Legende:");
 
@@ -250,6 +258,7 @@ function createD3(json) {
         .attr("dy", 3 + "em")
         .attr("dx", 5)
         .attr("text-anchor", "start")
+        .attr("class", "nodeslegende")
         .text("Nodes:");
 
     var i;
@@ -259,6 +268,7 @@ function createD3(json) {
             .attr("dy", 3 + i + "em")
             .attr("dx", 5)
             .attr("text-anchor", "start")
+            .attr("class", "legendebol")
             .text(function () {
                 if (nodeTypes[i - 1] == 1) {
                     return "IndividualContact";
@@ -282,13 +292,16 @@ function createD3(json) {
                 }
             })
     }
-    console.log(nodeTypes)
-
     d3.select('.legend').append("text")
-        .attr("dy", 4 + i + "em")
+        .attr("dy", 3 + i + "em")
         .attr("dx", 5)
         .attr("text-anchor", "start")
-        .text("Relations:")
+        .attr("class", "nodeslegende")
+        .text("Relaties:");
+
+    /* d3.select('.legendebol').append("i").attr("class", "fas").attr("class", "fas fa-circle green-text mx-4"); */
+    /* document.getElementById("legendebol").innerHTML += '<i class="fas fa-circle green-text mx-4" ></i>'; */
+    console.log(nodeTypes)
 
     for (var j = 0; j < relationTypes.length; j++) {
         d3.select('.legend').append("text")
@@ -298,4 +311,20 @@ function createD3(json) {
             .text(relationTypes[j])
             .style("fill", relationLinkColors[j])
     }
+
+    var relationInfo = d3.select('#area4').append("svg")
+        .attr("width", (4 / 7) * width * 0.8)
+        .attr("height", height * 0.3)
+    var relationArea = relationInfo.append("g")
+        .attr('class', 'relationInfo')
+    
+    var k;
+        for (k = 0; k < links.length; k++) {
+            d3.select('.relationInfo').append("text")
+                .attr("dy", k + "em")
+                .attr("dx", 5)
+                .attr("text-anchor", "start")
+                .text(links[k].source.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].target.ContactName)
+                .attr("font-size", "0.75rem")
+        }
 }

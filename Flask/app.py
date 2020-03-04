@@ -181,4 +181,4 @@ def parse_to_json(data,names):
 ##### MAKES FILE RUNNABLE #####
 if __name__ == '__main__':
 	# run!
-	app.run()
+	app.run(host='0.0.0.0')

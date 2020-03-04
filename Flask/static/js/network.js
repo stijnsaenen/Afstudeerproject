@@ -146,6 +146,7 @@ function createD3(json) {
                 success: function (response) {
                     console.log('hahahahahaha');
                     console.log(typeof (tempo));
+                    document.getElementById('displayrelatie').innerHTML = 'De relatie(s) van: <b>'+ d['ContactName'] +'</b>';
                     createD3(response);
                 },
                 error: function (data) {

@@ -121,35 +121,38 @@ function createD3(json) {
 
     node.append("circle")
         .attr("r", "17")
-        .on("click", function(d){
-        
-        if (d3.event.defaultPrevented) return;
-        
-        console.log("node clicked", d , arguments, this);
-        console.log(d['CompanyName']);
-        var contactName = d['ContactId'];
-        var tempo= 
-            
-        JSON.stringify({ contactId: contactName});         
-        console.log(tempo);
-        
-        
-        $.ajax({
-        type: "POST",
-        url: '/receivePersonID',
-        /* data: id, */
-        data: tempo,
-        contentType: "application/json",
-        success: function (response) {
-            console.log('hahahahahaha');
-            console.log(typeof(tempo));
-            createD3(response);
-        },
-        error: function (data) {
-            console.log(data);
-    
-        }
-    })})
+        .on("click", function (d) {
+
+            if (d3.event.defaultPrevented) return;
+
+            console.log("node clicked", d, arguments, this);
+            console.log(d['CompanyName']);
+            var contactName = d['ContactId'];
+            var tempo =
+
+                JSON.stringify({
+                    contactId: contactName
+                });
+            console.log(tempo);
+
+
+            $.ajax({
+                type: "POST",
+                url: '/receivePersonID',
+                /* data: id, */
+                data: tempo,
+                contentType: "application/json",
+                success: function (response) {
+                    console.log('hahahahahaha');
+                    console.log(typeof (tempo));
+                    createD3(response);
+                },
+                error: function (data) {
+                    console.log(data);
+
+                }
+            })
+        })
         .style("fill", function (d) {
             if (d.ContactKind == 1) {
                 return IndivNodeColor;
@@ -232,7 +235,16 @@ function createD3(json) {
                 i++;
             }
         }
+        var k;
+        for (k = 1; k < links.length + 1; k++) {
+            d3.select('.info').append("text")
+                .attr("dy", i + k + "em")
+                .attr("dx", 5)
+                .attr("text-anchor", "start")
+                .text(links[k - 1].source.ContactName)
+        }
     };
+    
     var legendInfo = d3.select('#area3').append("svg")
         .attr("width", (4 / 7) * width * 0.8)
         .attr("height", height * 0.3)
@@ -285,6 +297,13 @@ function createD3(json) {
                 }
             })
     }
+    d3.select('.legend').append("text")
+        .attr("dy", 3 + i + "em")
+        .attr("dx", 5)
+        .attr("text-anchor", "start")
+        .attr("class", "nodeslegende")
+        .text("Relaties:");
+
     /* d3.select('.legendebol').append("i").attr("class", "fas").attr("class", "fas fa-circle green-text mx-4"); */
     /* document.getElementById("legendebol").innerHTML += '<i class="fas fa-circle green-text mx-4" ></i>'; */
     console.log(nodeTypes)

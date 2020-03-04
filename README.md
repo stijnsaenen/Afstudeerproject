@@ -33,7 +33,8 @@ We hebben een ETL tool gebruikt om verschillende data sources samen te brengen e
 In deze tutorial zullen we ook opnieuw Pentaho gebruiken. Voordat je dit programma opstart moet je ervoor zorgen dat je de juiste database driver hebt geinstalleerd. Deze vind je [hier](https://docs.microsoft.com/en-us/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15). 
 
 Eens je Pentaho heb opgestart en de files open die in de repo op locatie 'Database\ETL - Pentaho' staan, zie je de transformations die wij gebruikt hebben om alles toe te voegen in de tussenlaag. In file 'vhuat db to tussenlaag(uclldb)' vind je de transformatie waar wij alle gegevens van uit de bestaande databank van 'Van Havermaet' transfereren naar onze tussenlaag. Dit werkt heel simpel: elke input node (rood) dat je ziet, staat voor een tabel en is op zijn beurt gelinkt met een output node (groen) die staat voor een tabel op de tussenlaag.
-![Zie foto](https://github.com/stijnsaenen/Afstudeerproject/tree/master/ReadMe_img/ETL.png)
+![Zie foto](https://github.com/stijnsaenen/Afstudeerproject/tree/master/ReadMe_img/ETL.png).
+
 Als er nieuwe data in de tussenlaag moet komen, die komt van de bestaande databank van 'Van Havermaet' kan je gewoon een configuratie kopieren en de gegevens aanpassen (kiezen van welke, naar welke tabel er moet worden getransfereerd). 
 
 

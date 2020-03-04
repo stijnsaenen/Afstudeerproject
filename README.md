@@ -38,3 +38,22 @@ Eens je Pentaho heb opgestart en de files open die in de repo op locatie 'Databa
 Als er nieuwe data in de tussenlaag moet komen, die komt van de bestaande databank van 'Van Havermaet' kan je gewoon een configuratie kopieren en de gegevens aanpassen (kiezen van welke, naar welke tabel er moet worden getransfereerd). 
 
 De tweede file 'csv-to-db' is een transformatie die we gebruikt hebben om csv data, die we via een script van de active directory omgeving hebben gehaald, om te zetten daar een tabel en deze ook weer in te voegen in de tussenlaag. Net zoals de vorige, kan je deze gewoon kopiëren en al de info van de nodes aanpassen om het om te zetten naar de csv/tabel die je nodig hebt.
+
+### Stef zijn deel
+
+
+### Docker
+In dit deel beschrijven we hoe we via Docker ervoor zorgen dat we de applicatie kunnen installeren en runnen via localhost:5000. Voor Docker heb je een linux machine nodig, je kan dit ook doen via een virtuele linux machine op je Windows computer. 
+1. Navigeer in de repo naar de Flask folder
+2. Volg [deze tutorial](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository) om docker te installeren in Linux. Je moet enkel het deel "Install using the repository" volgen en uitvoeren.
+3. Voer de volgende commando's uit
+```bash
+sudo usermod -aG docker $UsernameVanRootGebruiker
+docker build -t flask:latest .
+docker run -d -p 5000:5000 flask:latest
+docker ps
+```
+4. Dan zou je iets zien zoals dit:
+CONTAINER ID  IMAGE   COMMAND       CREATED   STATUS  PORTS
+9701  flask python app.py 3 min ago Up 4 min 0.0.0.0:5000
+Dit betekend dat de applicatie succesvol draait op de localhost:5000 (Als je hiernaar surft zou je dit moeten zien)

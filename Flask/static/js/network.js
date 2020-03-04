@@ -308,7 +308,7 @@ function createD3(json) {
             .attr("dy", j + 5 + i + "em")
             .attr("dx", 5)
             .attr("text-anchor", "start")
-            .text(relationTypes[j])
+            .text(relationTypes[j].split('#')[1])
             .style("fill", relationLinkColors[j])
     }
 
@@ -321,10 +321,10 @@ function createD3(json) {
     var k;
         for (k = 0; k < links.length; k++) {
             d3.select('.relationInfo').append("text")
-                .attr("dy", k + "em")
+                .attr("dy", k +1 + "em")
                 .attr("dx", 5)
                 .attr("text-anchor", "start")
-                .text(links[k].source.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].target.ContactName)
+                .text(links[k].target.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].source.ContactName)
                 .attr("font-size", "0.75rem")
         }
 }

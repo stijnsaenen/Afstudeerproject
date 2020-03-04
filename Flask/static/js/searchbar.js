@@ -5,7 +5,7 @@ const searchOption = document.getElementById('dropdownMenu5');
 
 var searchOptionName = true;
 var searchOptionEmail = false;
-var searchOptionPhone = false;
+//var searchOptionPhone = false;
 var searchOptionCompanyName = false;
 
 
@@ -66,7 +66,7 @@ const searchStates = async searchText => {
             "id": persons[key].id,
             "name": persons[key].name,
             "email": persons[key].email,
-            "phone": persons[key].phone,
+            //"phone": persons[key].phone,
             "companyname": persons[key].companyname
         };
         juisteLijstMetAlleNamenEnIds.push(pJson)
@@ -88,13 +88,13 @@ const searchStates = async searchText => {
             } else if (person.email.match(regex)) {
                 return person.email;
             }
-        } else if (searchOptionPhone) {
+        /*}  else if (searchOptionPhone) {
             //TODO----------------------------------------------------------------------------------------------------------------------------------------------
             if (person.phone == null) {
                 console.log("error")
             } else if (person.phone.match(regexnum)) {
                 return person.name;
-            }
+            } */
         } else if (searchOptionCompanyName) {
             if (person.companyname == null) {
                 console.log("error")
@@ -157,7 +157,7 @@ function changeSearchOptionName() {
     searchOption.innerHTML = 'Name';
     searchOptionName = true;
     searchOptionEmail = false;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = false;
     matches = [];
 }
@@ -170,7 +170,7 @@ function changeSearchOptionEmail() {
     searchOption.innerHTML = 'E-Mail';
     searchOptionName = false;
     searchOptionEmail = true;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = false;
     matches = [];
 }
@@ -192,7 +192,7 @@ function changeSearchOptionCompanyName() {
     searchOption.innerHTML = 'Company name';
     searchOptionName = false;
     searchOptionEmail = false;
-    searchOptionPhone = false;
+    //searchOptionPhone = false;
     searchOptionCompanyName = true;
     matches = [];
 }

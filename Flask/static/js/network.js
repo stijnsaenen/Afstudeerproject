@@ -217,6 +217,8 @@ function createD3(json) {
 
     var infoArea;
     var contactInfo = d3.select('#area2').append("svg")
+        .attr("width", (4 / 7) * width * 0.8)
+        .attr("height", height * 0.3)
 
     function showInfo(d) {
         if (infoArea) infoArea.remove();
@@ -231,13 +233,13 @@ function createD3(json) {
             if (key != ("index") && key != ("weight") && key != ("x") && key != ("y") && key != ("px") && key != ("py") && key != ("fixed") && d[key] != null && d[key] != '') {
                 d3.select('.info').append("text")
                     .attr("dy", i + "em")
-                    .attr("dx", 5)
+                    .attr("dx", 0)
                     .attr("text-anchor", "start")
                     .text(key + ": " + d[key])
                 i++;
             }
         }
-        
+
     };
 
     var legendInfo = d3.select('#area3').append("svg")
@@ -249,14 +251,14 @@ function createD3(json) {
 
     d3.select('.legend').append("text")
         .attr("dy", 1 + "em")
-        .attr("dx", 5)
+        .attr("dx", 0)
         .attr("class", "legendetitel")
         .attr("text-anchor", "start")
         .text("Legende:");
 
     d3.select('.legend').append("text")
         .attr("dy", 3 + "em")
-        .attr("dx", 5)
+        .attr("dx", 0)
         .attr("text-anchor", "start")
         .attr("class", "nodeslegende")
         .text("Nodes:");
@@ -266,7 +268,7 @@ function createD3(json) {
     for (i = 1; i < nodeTypes.length + 1; i++) {
         d3.select('.legend').append("text")
             .attr("dy", 3 + i + "em")
-            .attr("dx", 5)
+            .attr("dx", 0)
             .attr("text-anchor", "start")
             .attr("class", "legendebol")
             .text(function () {
@@ -294,7 +296,7 @@ function createD3(json) {
     }
     d3.select('.legend').append("text")
         .attr("dy", 3 + i + "em")
-        .attr("dx", 5)
+        .attr("dx", 0)
         .attr("text-anchor", "start")
         .attr("class", "nodeslegende")
         .text("Relaties:");
@@ -306,7 +308,7 @@ function createD3(json) {
     for (var j = 0; j < relationTypes.length; j++) {
         d3.select('.legend').append("text")
             .attr("dy", j + 5 + i + "em")
-            .attr("dx", 5)
+            .attr("dx", 0)
             .attr("text-anchor", "start")
             .text(relationTypes[j].split('#')[1])
             .style("fill", relationLinkColors[j])
@@ -317,14 +319,14 @@ function createD3(json) {
         .attr("height", height * 0.3)
     var relationArea = relationInfo.append("g")
         .attr('class', 'relationInfo')
-    
+
     var k;
-        for (k = 0; k < links.length; k++) {
-            d3.select('.relationInfo').append("text")
-                .attr("dy", k +1 + "em")
-                .attr("dx", 5)
-                .attr("text-anchor", "start")
-                .text(links[k].target.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].source.ContactName)
-                .attr("font-size", "0.75rem")
-        }
+    for (k = 0; k < links.length; k++) {
+        d3.select('.relationInfo').append("text")
+            .attr("dy", k + 1 + "em")
+            .attr("dx", 0)
+            .attr("text-anchor", "start")
+            .text(links[k].target.ContactName + ' ' + links[k].LeftContactTitle.split('#')[1] + ' ' + links[k].source.ContactName)
+            .attr("font-size", "0.75rem")
+    }
 }

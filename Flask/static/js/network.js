@@ -295,7 +295,7 @@ function createD3(json) {
             })
     }
     d3.select('.legend').append("text")
-        .attr("dy", 3 + i + "em")
+        .attr("dy", 4 + i + "em")
         .attr("dx", 0)
         .attr("text-anchor", "start")
         .attr("class", "nodeslegende")

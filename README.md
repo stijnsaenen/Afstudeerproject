@@ -60,5 +60,5 @@ CONTAINER ID  IMAGE   COMMAND       CREATED   STATUS  PORTS
 9701  flask python app.py 3 min ago Up 4 min 0.0.0.0:5000
 ```
 Dit betekend dat de applicatie succesvol draait op de localhost:5000 (Als je hiernaar surft zou je de applicatie moeten zien)
-Voor meer informatie, of indien er iets onduidelijk is, kun je terecht op:
-https://medium.com/@doedotdev/docker-flask-a-simple-tutorial-bbcb2f4110b5
+Voor meer informatie, of indien er iets onduidelijk is, kun je [hier](https://medium.com/@doedotdev/docker-flask-a-simple-tutorial-bbcb2f4110b5) terecht.
+

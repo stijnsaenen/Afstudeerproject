@@ -1,14 +1,11 @@
 # Afstudeerproject: Clustering zoekresultaten afkomstig van verschillende documentbeheerssystemen in een visuele omgeving
 
-Foobar is a Python library for dealing with word pluralization.
+Hieronder vind je het volledige stappenplan om onze tool werkend en functioneel te krijgen. We hebben ook beschreven hoe je dit in de toekomst zou kunnen uitbreiden.
 
-## Installation
+## Installatie
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
+Eerst en vooral beginnen we met het clonen van deze repo. Dit kan je doen via programma's zoals 'Github desktop' of 'GitKraken'.
+Een andere manier om dit te doen is via command line (Windows PowerShell, Git Bash, CMD, ...). Je navigeert naar de locatie waar je de repo zou willen clonen adhv het commando 'cd'. Eens je in de juiste directory zit
 
 ## Usage
 

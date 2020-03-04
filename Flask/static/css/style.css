@@ -14,6 +14,7 @@ path {
     fill: beige;
     cursor: pointer;
 }
+
 /* body{
     background-color: #aaa;
 } */
@@ -26,6 +27,29 @@ h4,
 h5 {
     font-family: "Raleway", sans-serif
 }
+body{
+    background-color: #ededed;
+}
+#displayrelatie{
+    color: white;
+    padding: 10px 10px 10px 20px;
+    border-radius: 10px 40px;
+}
+.legendetitel{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.legendebol{
+    width: 100%;
+} .nodeslegende{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.relationslegende{
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+/*
 .een{
     background-color: white;
     margin: 100px 20px 20px 20px;
@@ -46,23 +70,61 @@ h5 {
     background-color: white;
     margin: 20px;
 }
-/* .een{
-    background-color: red;
-    margin: 100px 20px 20px 20px;
+*/
+.autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 500px;
 }
-.twee{
-    background-color: yellow;
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    
+    max-height: 300px;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+}
+
+.nest {
+    margin: 0;
+    padding: 0;
+
+}
+
+.een {
+/*    background-color: red;*/
+    margin: 20px 20px 20px 20px;
+}
+
+.twee {
+    /*background-color: yellow;*/
     margin: 20px;
 }
-.drie{
-    background-color: green;
+
+.drie {
+    /*background-color: green;*/
     margin: 20px;
 }
-.vier{
-    background-color: blueviolet;
-    margin: 20px;
+
+.vier {
+    /*background-color: blueviolet;*/
+    margin: 20px
+        /*;
 }
-.vijf{
-    background-color: fuchsia;
-    margin: 20px;
-} */
+
+.vijf {
+    /*background-color: fuchsia;*/
+        margin: 20px;
+    position: relative;
+    display: inline-block;
+
+}

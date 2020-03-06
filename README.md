@@ -46,9 +46,9 @@ De tweede file 'csv-to-db' is een transformatie die we gebruikt hebben om csv da
 
 Het is belangrijk dat je de correcte python versie gebruikt. Versie 3.7.x is een vereiste, bij voorkeur gebruik je versie 3.7.6.
 
-De volgende video tutorial kan je helpen om python correct te installeren:
+[Deze tutorial](https://www.youtube.com/watch?v=bXWlyOMYpRE) kan je helpen om python correct te installeren.
 
-https://www.youtube.com/watch?v=bXWlyOMYpRE
+
 
 Bij versie selecteer je 3.7.6, volg de tutorial tot 7:45.
 

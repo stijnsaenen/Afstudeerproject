@@ -2,14 +2,13 @@ const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
 const searchOption = document.getElementById('dropdownMenu5');
 
-
+//booleans voor de zoekopties
 var searchOptionName = true;
 var searchOptionEmail = false;
-//var searchOptionPhone = false;
 var searchOptionCompanyName = false;
 
 
-//search json en filter
+//verkrijg volledige JSON met contactpersonen
 const JSONlist = getJsonList();
 
 function getJsonList() {
@@ -25,7 +24,7 @@ function getJsonList() {
                 result = data;
             },
             error: function (data) {
-                console.log("nee");
+                console.log(data);
             }
         });
         return result;
@@ -34,9 +33,10 @@ function getJsonList() {
 
 }
 
+//verstuur id naar server wanneer een persoon wordt aangedrukt en ontvang response voor netwerk
 function sendIdToServer(id) {
     console.log(id);
-    var hihi = [{
+    var jsonVanId = [{
         "contactId": id
     }];
 
@@ -52,15 +52,17 @@ function sendIdToServer(id) {
         },
         error: function (data) {
             console.log(data);
-            console.log(JSON.stringify(hihi))
+            console.log(JSON.stringify(jsonVanId))
         }
     });
 }
 
+//voor dit uit bij elke inputchange van de searchbar
 const searchStates = async searchText => {
     const persons = JSON.parse(JSONlist);
 
-    const juisteLijstMetAlleNamenEnIds = [] //convert naar juiste format
+    //convert JSON van server naar nieuwe format die beter is om over te itereren voor de regex
+    const juisteLijstMetAlleNamenEnIds = []
     Object.keys(persons).forEach(function (key) {
         var pJson = {
             "id": persons[key].id,
@@ -88,13 +90,6 @@ const searchStates = async searchText => {
             } else if (person.email.match(regex)) {
                 return person.email;
             }
-        /*}  else if (searchOptionPhone) {
-            //TODO----------------------------------------------------------------------------------------------------------------------------------------------
-            if (person.phone == null) {
-                console.log("error")
-            } else if (person.phone.match(regexnum)) {
-                return person.name;
-            } */
         } else if (searchOptionCompanyName) {
             if (person.companyname == null) {
                 console.log("error")
@@ -104,20 +99,22 @@ const searchStates = async searchText => {
         }
     });
 
-    console.log(matches); //debug
-
+    //leegmaken van de html als de searchbar leeg is
     if (searchText.length === 0 || matches.length === 0) {
         matches = [];
         matchList.innerHTML = '';
     }
 
+    //de regex pas tonen nadat er 3 letters zijn ingegeven
     if (search.value.length > 2) {
         outputHtml(matches);
     }
 }
 
+//maken van de lijst onder de searchbar
 const outputHtml = matches => {
     if (matches.length > 0) {
+        //in de onclick van deze elementen zitten acties zoals het veranderen van de titel, leegmaken van de search en leegmaken van de searchlijst
         const html = matches.map(match => `
 
         <a class="list-group-item" onclick="
@@ -142,8 +139,7 @@ search.addEventListener('input', () => searchStates(search.value));
 
 
 
-// verander opties van zoeken, veranderd gzn de booleans
-
+// verander de opties van zoeken, veranderd de booleans
 nameoption = document.getElementById('nameoption');
 mailoption = document.getElementById('mailoption');
 cnameoption = document.getElementById('cnameoption');
@@ -174,15 +170,6 @@ function changeSearchOptionEmail() {
     searchOptionCompanyName = false;
     matches = [];
 }
-
-/* function changeSearchOptionPhone() {
-
-    searchOptionName = false;
-    searchOptionEmail = false;
-    searchOptionPhone = true;
-    searchOptionCompanyName = false;
-    matches = [];
-} */
 
 function changeSearchOptionCompanyName() {
     nameoption.classList.remove("active");

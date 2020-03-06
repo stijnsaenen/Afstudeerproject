@@ -40,19 +40,17 @@ Als er nieuwe data in de tussenlaag moet komen, die komt van de bestaande databa
 
 De tweede file 'csv-to-db' is een transformatie die we gebruikt hebben om csv data, die we via een script van de active directory omgeving hebben gehaald, om te zetten daar een tabel en deze ook weer in te voegen in de tussenlaag. Net zoals de vorige, kan je deze gewoon kopiëren en al de info van de nodes aanpassen om het om te zetten naar de csv/tabel die je nodig hebt.
 
-## Environment opstellen voor het serven en aanpassen van de applicatie
-
-### Python installatie
+### Installatie Package
 
 Het is belangrijk dat je de correcte python versie gebruikt. Versie 3.7.x is een vereiste, bij voorkeur gebruik je versie 3.7.6.
 
-De volgende video tutorial kan je helpen om python correct te installeren:
+[Deze tutorial](https://www.youtube.com/watch?v=bXWlyOMYpRE) kan je helpen om python correct te installeren.
 
-https://www.youtube.com/watch?v=bXWlyOMYpRE
+
 
 Bij versie selecteer je 3.7.6, volg de tutorial tot 7:45.
 
-Je kan de isntallatie controleren met:
+Je kan de installatie controleren met:
 ```
 python --version
 ```

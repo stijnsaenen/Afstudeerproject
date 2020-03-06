@@ -40,7 +40,84 @@ Als er nieuwe data in de tussenlaag moet komen, die komt van de bestaande databa
 
 De tweede file 'csv-to-db' is een transformatie die we gebruikt hebben om csv data, die we via een script van de active directory omgeving hebben gehaald, om te zetten daar een tabel en deze ook weer in te voegen in de tussenlaag. Net zoals de vorige, kan je deze gewoon kopiëren en al de info van de nodes aanpassen om het om te zetten naar de csv/tabel die je nodig hebt.
 
-### Stef zijn deel
+# Environment opstellen voor het serven en aanpassen van de applicatie
+
+## Python installatie
+
+Het is belangrijk dat je de correcte python versie gebruikt. Versie 3.7.x is een vereiste, bij voorkeur gebruik je versie 3.7.6.
+
+De volgende video tutorial kan je helpen om python correct te installeren:
+
+https://www.youtube.com/watch?v=bXWlyOMYpRE
+
+Bij versie selecteer je 3.7.6, volg de tutorial tot 7:45.
+
+Je kan de isntallatie controleren met:
+
+python --version
+
+
+## Installatie packages
+
+Vervolgens installeren we de benodigde packages. Om dit makkelijker te maken is er een requirements.txt file in je repo, waarin alle packages opleglijst staan.
+
+Navigeer in cmd naar de /Flask map in je repo.
+
+Je kan de packages installeren met het commando:
+
+pip install -r requirements.txt
+
+Het is belangrijk dat requirements.txt in dezlefde map staan als de map waarin je het commando uit voert.
+
+## Serve de applicatie lokaal
+
+Flask, het package die we gebruiken voor de backend,  heeft een ingebouwde lokale webserver, je kan deze runnen in de /Flask map met het commando:
+
+flask run
+
+Indien dit niet werkt kan je simpelweg de app.py uitvoeren met het commando: 
+
+py app.py
+
+of
+
+python app.py
+
+Tip: als je aanpassingen wil maken in de backend is het handig om Flask debug mode te activeren, dan herstart de server automatisch bij elke aanpassing:
+
+
+ SET FLASK_DEBUG = 1
+
+## Overzicht file structure
+
+Naast app.py, die de backend bevat, toont de volgende boom de frontend files. De overige files, die hier niet getoond worden, bevatten voornamelijk libraries die in deze files worden gebruikt.
+
+
+Flask
+
+    │   
+    │       
+    ├───static   
+    │   │   
+    │   │  
+    │   ├───js
+    │       ├───network.js
+    │       └───searchbar.js
+    │          
+    │               
+    └───templates
+        |───index.html
+
+
+
+network.js is de kern van de frontend en bevat de code de het netwerdiagram construeert en alles er rond.
+searchbar.js is de code met betrekking tot de zoekalk en de autocomplete.
+Deze bestanden moeten verplicht in de /static map.
+
+index.html is het hoofd html bestand, dit is het bestand dat allereerst wordt ingeladen als je de pagina bezoekt. 
+De bovenstaande js files zorgen voor de invulling ervan.
+html files moeten verplicht in de templates map.
+
 
 
 ### Docker

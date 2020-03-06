@@ -53,8 +53,9 @@ https://www.youtube.com/watch?v=bXWlyOMYpRE
 Bij versie selecteer je 3.7.6, volg de tutorial tot 7:45.
 
 Je kan de isntallatie controleren met:
-
+```
 python --version
+```
 
 
 ### Installatie packages
@@ -64,29 +65,34 @@ Vervolgens installeren we de benodigde packages. Om dit makkelijker te maken is 
 Navigeer in cmd naar de /Flask map in je repo.
 
 Je kan de packages installeren met het commando:
-
+```
 pip install -r requirements.txt
+```
 
 Het is belangrijk dat requirements.txt in dezlefde map staan als de map waarin je het commando uit voert.
 
 ### Serve de applicatie lokaal
 
 Flask, het package die we gebruiken voor de backend,  heeft een ingebouwde lokale webserver, je kan deze runnen in de /Flask map met het commando:
-
+```
 flask run
+```
 
 Indien dit niet werkt kan je simpelweg de app.py uitvoeren met het commando: 
-
+```
 py app.py
+```
 
 of
-
+```
 python app.py
+```
 
 Tip: als je aanpassingen wil maken in de backend is het handig om Flask debug mode te activeren, dan herstart de server automatisch bij elke aanpassing:
 
-
+```
  SET FLASK_DEBUG = 1
+ ```
 
 ### Overzicht file structure
 

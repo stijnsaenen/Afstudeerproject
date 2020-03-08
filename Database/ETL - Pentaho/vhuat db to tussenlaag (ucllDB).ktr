@@ -456,6 +456,30 @@
       <bordercolorblue>100</bordercolorblue>
       <drawshadow>Y</drawshadow>
     </notepad>
+    <notepad>
+      <note>-Deze transformatie dient om de data van de databank van 'Van Havermaet' te kopiëren naar onze databank (= de tussenlaag)
+Bij de eerste tegel maak je connectie met de source databank (die van 'Van Havermaet') en kies je de tabel uit die gekopieerd moet worden
+De tweede tegel dient om connectie te maken met de target databank (de ucllDB tussenlaag) en hier kies je ook de juiste tabel waarnaar de kopie moet worden weggeschreven
+</note>
+      <xloc>48</xloc>
+      <yloc>512</yloc>
+      <width>929</width>
+      <heigth>73</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>kopie prod. omgeving</name>

@@ -434,6 +434,32 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Deze transformatie dient om een csv (die we via een script op de repo) om te zetten naar tabel format 
+en deze dan op te laden in de ucllDB tussenlaag
+De eerste tegel dient simpel als input tegel van de csv file, je moet hier zeggen waar de csv is opgeslagen op je pc
+De tweede teged is een tegen die ervoor zorgt dat je van csv naar tabel format gaan. De zegt wat de seperator is (bij csv altijd,) en je geeft je disclosure mee (bij csv altijd ")
+Bij de laatste tegel leg je de connectie met de target database en kies je in welke tabel deze data moet worden weggeschreven
+</note>
+      <xloc>32</xloc>
+      <yloc>304</yloc>
+      <width>902</width>
+      <heigth>105</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>vhuat Van Havermaet</name>

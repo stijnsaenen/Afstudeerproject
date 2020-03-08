@@ -92,7 +92,7 @@ function createD3(json) {
         console.log(nodeTypes)
     }
 
-
+    //assign colours
     for (var i = 0; i < relationTypes.length; i++) {
         relationLinkColors.push("#" + (Math.floor(0xFFFFFF / (((relationTypes.length) * 3)) * (i + 1)).toString(16)))
     }

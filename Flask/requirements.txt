@@ -8,7 +8,7 @@ cycler==0.10.0
 distlib==0.3.0
 filelock==3.0.12
 Flask==1.1.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-SQLAlchemy==2.4.1
 gekko==0.2.6
 idna==2.8
